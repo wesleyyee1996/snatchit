@@ -1,0 +1,7 @@
+react_app/node_modules
+Dockerfile
+.git
+react_app/.gitignore
+.gitignore
+.dockerignore
+.devcontainer
