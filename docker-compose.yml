@@ -1,8 +1,14 @@
 version: "3"
 services:
-  snatchit-app:
-    build: .
+  react-app:
+    build: ./src/react_app
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/app:ro
+      - ./src/react_app:/app
+  flask-app:
+    build: ./src/flask_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/flask_app:/app:ro
