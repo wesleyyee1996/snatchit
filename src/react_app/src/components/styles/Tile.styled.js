@@ -1,15 +1,17 @@
 import styled from 'styled-components';
 
 export const StyledTile = styled.div`
-  width: 10vmin;
-  height: 10vmin;
-  display: inline-block;
+  width: 7vmin;
+  height: 7vmin;
   background-color: #EFD26B;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 1px;
   font-size: 3.3vmin;
   font-weight: 400;
-  margin: 1% 1%;
-  padding-top: 1%;
+  margin: 4% 4%;
+  padding-top: 2%;
   text-align: center;
   cursor: default;
   font-family: "Spinnaker", Arial, sans-serif;

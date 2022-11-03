@@ -32,20 +32,24 @@ const tile_data = {
 }
 
 const GameBoard = () => {
-  var allTiles = [];
-  for (var letter in tile_data) {
-    for (let i=0; i <= tile_data[letter]; i++) {
-      allTiles.push(
-        <Tile letter = {letter} />
-      )
-    }
-  }
 
-  allTiles = allTiles.sort(() => Math.random() - 0.5);
+  function generateBoard() {
+    var allTiles = [];
+    for (var letter in tile_data) {
+      for (let i=0; i <= tile_data[letter]; i++) {
+        allTiles.push(
+          <Tile letter = {letter} />
+        )
+      }
+    }
+
+    return allTiles.sort(() => Math.random() - 0.5);
+  }
+  
   
   return (
     <StyledGameBoard>
-      {allTiles}
+      {generateBoard().map((tile) => <div>{tile}</div>)}
     </StyledGameBoard>
   );
 }

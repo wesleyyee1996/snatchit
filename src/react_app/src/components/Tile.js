@@ -1,17 +1,23 @@
 import React, {useState} from 'react'
 import { StyledTile } from './styles/Tile.styled';
+import { StyledTileLetter } from './styles/TileLetter.styled';
 
-export default function Tile(props) {
+const Tile = (props) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
     <StyledTile onClick={() => setIsFlipped(!isFlipped)}> 
-      <p> 
-        {isFlipped ? 
-          (props.letter) : (' ')
-        }
-      </p>
+      {isFlipped && (
+          <StyledTileLetter> 
+            {
+              props.letter
+            }
+          </StyledTileLetter>
+      )}
+      
     </StyledTile>
   );
 }
+
+export default Tile;
     
