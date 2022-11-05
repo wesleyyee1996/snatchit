@@ -1,12 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import GameBoard from './components/GameBoard';
+import GameBoardContainer from './components/GameBoardContainer';
 
 function App() {
   return (
     <div className="App">
-        <GameBoard />
+        <GameBoardContainer />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyledGameBoard } from './styles/GameBoard.styled';
-import WordForm from './WordForm';
 import Tile from './Tile';
 import axios from 'axios'
 import { useEffect, useState } from 'react';
@@ -31,10 +30,12 @@ const GameBoard = () => {
       setLetterCounts(req.data)
     }
     fetchData();
+    console.log("fetch data")
   }, []);
 
   useEffect(() => {
     generateBoard();
+    console.log("letter counts changed!")
   }, [letterCounts])
   
   return (
@@ -42,7 +43,6 @@ const GameBoard = () => {
       <StyledGameBoard>
         {tiles.map((tile) => <div>{tile}</div>)}
       </StyledGameBoard>
-      <WordForm/>
     </>
   );
 }

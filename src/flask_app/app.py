@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from game_board import GameBoard
 
@@ -17,8 +17,13 @@ def submit_word(value):
 @app.route('/api/tile/<letter>', methods = ['POST'])
 def letter_flipped(letter):
   game.set_letter_flipped(letter)
-  print(letter)
   return game.get_board_state_json()
+
+@app.route('/api/newgame')
+def new_game():
+  global game
+  game = GameBoard()
+  return jsonify(success=True)
 
 @app.route('/api/generateBoard')
 def generate_board():

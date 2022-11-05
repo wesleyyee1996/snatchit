@@ -1,9 +1,15 @@
 import yaml
 import json
 import copy
+import logging
+
+logging.basicConfig()
+logging.root.setLevel(logging.NOTSET)
+logging.basicConfig(level=logging.NOTSET)
 
 class GameBoard:
   def __init__(self):
+    self.logger = logging.getLogger(__name__)
     self.board_state = self.generate_game_board()
     self.tiles_in_play = {}
 
@@ -15,7 +21,9 @@ class GameBoard:
         if temp_tiles_in_play[l] == 0:
           del temp_tiles_in_play[l]
       else:
+        self.logger.info("word %s is %s"%(word, False))
         return False
+    self.logger.info("word %s is %s"%(word, True))
     return True
 
   def get_board_state_json(self):
@@ -23,6 +31,11 @@ class GameBoard:
 
   def set_letter_flipped(self, letter):
     self.board_state[letter] -= 1
+    if letter in self.tiles_in_play:
+      self.tiles_in_play[letter] += 1
+    else:
+      self.tiles_in_play[letter] = 1
+    self.logger.info("tiles_in_play: {}".format(self.tiles_in_play))
 
   def generate_game_board(self):
     board_state = {}
