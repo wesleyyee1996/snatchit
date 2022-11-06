@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
-import { StyledTile } from '../styles/Tile.styled';
+import { StyledTile, StyledCenterTile, StyledPlayerTile } from '../styles/Tile.styled';
 import { StyledTileLetter } from '../styles/TileLetter.styled';
 import { observer } from 'mobx-react-lite';
-import axios from 'axios'
 
-const Tile = observer(({gameStore, letter}) => {
+const Tile = observer(({gameStore, letter, inCenter}) => {
 
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -13,21 +12,39 @@ const Tile = observer(({gameStore, letter}) => {
       return;
     }
     gameStore.postTileFlipped(letter);
+    setIsFlipped(true);
   }
 
+  const renderTileLetter = () => {
+    return (
+      (
+        <StyledTileLetter> 
+          {
+            letter
+          }
+        </StyledTileLetter>
+    ))
+  };
+
   return (
-    <StyledTile onClick={() => {sendFlipped(); 
-      setIsFlipped(true);
-    }}> 
-      {isFlipped && (
-          <StyledTileLetter> 
-            {
-              letter
-            }
-          </StyledTileLetter>
-      )}
-      
-    </StyledTile>
+    <div>
+        {
+          inCenter && (
+            <StyledCenterTile onClick={() => {
+              sendFlipped(); 
+            }}> 
+              {isFlipped && renderTileLetter()}      
+            </StyledCenterTile>
+          )
+        }
+        {
+          !inCenter && (
+            <StyledPlayerTile> 
+              {renderTileLetter()}      
+            </StyledPlayerTile>
+          )
+        }
+    </div>
   );
 });
 

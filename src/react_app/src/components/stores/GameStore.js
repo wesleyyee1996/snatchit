@@ -1,10 +1,15 @@
 import { makeAutoObservable} from "mobx"
 import React from 'react'
 import axios from 'axios'
+import GameState from "../objects/GameState";
 
 class GameStoreImpl {
 
   letterJsonData = {};
+
+  currentPlayer = 0;
+
+  // gameState = new GameState();
 
   constructor() {   
     makeAutoObservable(this);

@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import axios from 'axios'
 import { observer } from 'mobx-react-lite';
 
 const WordForm = observer(({gameStore}) => {

@@ -13,7 +13,7 @@ const GameBoard = observer(({gameStore}) => {
     for (var letter in gameStore.letterJsonData) {
       for (let i=0; i <= gameStore.letterJsonData[letter]; i++) {
         allTiles.push(
-          <Tile letter = {letter} gameStore = {gameStore} />
+          <Tile letter = {letter} gameStore = {gameStore} inCenter={true}/>
         )
       }
     }
