@@ -1,20 +1,14 @@
 import React, {useState} from 'react'
 import axios from 'axios'
+import { observer } from 'mobx-react-lite';
 
-const WordForm = () => {
+const WordForm = observer(({gameStore}) => {
 
   const [wordText, setWordText] = useState('');
 
   const submitWord = (e) => {
     e.preventDefault();
-    axios.get('http://127.0.0.1:8000/api/word/'+wordText).then(
-      res => {
-        console.log(res);
-      }).catch(
-      error => {
-        console.log(error);
-      }
-    );
+    gameStore.getSubmitWord(wordText);
     setWordText('');
   }
   
@@ -25,6 +19,6 @@ const WordForm = () => {
       <button onClick={(e) => submitWord(e)}> Submit</button>
     </form>
   );
-};
+});
 
 export default WordForm;

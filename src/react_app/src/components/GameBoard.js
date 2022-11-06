@@ -1,21 +1,19 @@
 import React from 'react';
 import { StyledGameBoard } from './styles/GameBoard.styled';
 import Tile from './Tile';
-import axios from 'axios'
 import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
 
-const GameBoard = () => {
-
-  const [letterCounts, setLetterCounts] = useState('');
+const GameBoard = observer(({gameStore}) => {
 
   const [tiles, setTiles] = useState([]);
 
   function generateBoard() {
     var allTiles = [];
-    for (var letter in letterCounts) {
-      for (let i=0; i <= letterCounts[letter]; i++) {
+    for (var letter in gameStore.letterJsonData) {
+      for (let i=0; i <= gameStore.letterJsonData[letter]; i++) {
         allTiles.push(
-          <Tile letter = {letter} />
+          <Tile letter = {letter} gameStore = {gameStore} />
         )
       }
     }
@@ -25,18 +23,12 @@ const GameBoard = () => {
   }
 
   useEffect(() => {
-    async function fetchData() {
-      const req = await axios.get('http://127.0.0.1:8000/api/generateBoard')
-      setLetterCounts(req.data)
-    }
-    fetchData();
-    console.log("fetch data")
+    gameStore.getLetterData();
   }, []);
 
   useEffect(() => {
     generateBoard();
-    console.log("letter counts changed!")
-  }, [letterCounts])
+  }, [gameStore.letterJsonData])
   
   return (
     <>
@@ -45,6 +37,6 @@ const GameBoard = () => {
       </StyledGameBoard>
     </>
   );
-}
+});
 
 export default GameBoard;
