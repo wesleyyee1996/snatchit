@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
-import { StyledTile } from './styles/Tile.styled';
-import { StyledTileLetter } from './styles/TileLetter.styled';
+import { StyledTile } from '../styles/Tile.styled';
+import { StyledTileLetter } from '../styles/TileLetter.styled';
 import { observer } from 'mobx-react-lite';
 import axios from 'axios'
 

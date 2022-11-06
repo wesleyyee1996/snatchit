@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledGameBoard } from './styles/GameBoard.styled';
+import { StyledGameBoard } from '../styles/GameBoard.styled';
 import Tile from './Tile';
 import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
