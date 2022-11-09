@@ -5,11 +5,9 @@ import GameState from "../objects/GameState";
 
 class GameStoreImpl {
 
-  letterJsonData = {};
+  tileData = {};
 
   currentPlayer = 0;
-
-  // gameState = new GameState();
 
   constructor() {   
     makeAutoObservable(this);
@@ -20,7 +18,7 @@ class GameStoreImpl {
       const req = await axios.get('http://127.0.0.1:8000/api/generateBoard');
       return req.data;
     }
-    fetchData().then(data => this.letterJsonData = data);
+    fetchData().then(data => this.tileData = data);
   }
 
   getNewGame() {

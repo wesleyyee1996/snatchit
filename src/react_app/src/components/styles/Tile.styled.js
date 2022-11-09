@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
 export const StyledTile = styled.div`
-  width: 7vmin;
-  height: 7vmin;
+  width: 6vmin;
+  height: 6vmin;
   background-color: #EFD26B;
-  display: flex;
-  justify-content: center;
+  // justify-content: center;
   align-items: center;
-  border-radius: 1px;
+  border-radius: 0.5px;
   font-size: 3.3vmin;
   font-weight: 400;
   text-align: center;
@@ -19,8 +18,14 @@ export const StyledTile = styled.div`
 `
 
 export const StyledCenterTile = styled(StyledTile)`
-  margin: 4% 4%;
-  padding-top: 2%;
+  // flex-grow: 0;
+  margin: 1% 1% 1% 1%;
+  // padding-top: 2%;
+  // border: 20px;
+  position: absolute;
+  top: ${props => props.top_pos}vmin;
+  left: ${props => props.left_pos}vmin;
+  transform: rotate(${props => props.angle}deg);
 `
 
 export const StyledPlayerTile = styled(StyledTile)`
