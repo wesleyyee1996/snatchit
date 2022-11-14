@@ -1,6 +1,8 @@
-/* .App {
-  text-align: center;
-} */
+.App {
+  /* text-align: center; */
+  background-color: purple;
+  height: 100vh;
+}
 
 /* .App-logo {
   height: 40vmin;

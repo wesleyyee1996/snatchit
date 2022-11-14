@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const StyledTile = styled.div`
-  width: 6vmin;
-  height: 6vmin;
+  width: 4.5vmin;
+  height: 4.5vmin;
   background-color: #EFD26B;
   // justify-content: center;
   align-items: center;
-  border-radius: 0.5px;
-  font-size: 3.3vmin;
+  border-radius: 6px;
+  font-size: 2.7vmin;
   font-weight: 400;
   text-align: center;
   cursor: default;
@@ -23,8 +23,8 @@ export const StyledCenterTile = styled(StyledTile)`
   // padding-top: 2%;
   // border: 20px;
   position: absolute;
-  top: ${props => props.top_pos}vmin;
-  left: ${props => props.left_pos}vmin;
+  top: ${props => props.top_pos}%;
+  left: ${props => props.left_pos}%;
   transform: rotate(${props => props.angle}deg);
 `
 

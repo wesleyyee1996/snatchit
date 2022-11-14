@@ -1,16 +1,21 @@
 import { makeAutoObservable} from "mobx"
 import React from 'react'
 import axios from 'axios'
-import GameState from "../objects/GameState";
+import Tile from "../views/Tile";
 
 class GameStoreImpl {
 
   tileData = {};
 
+  shuffledTiles = []
+
+  fetchedLetterData = false;
+
   currentPlayer = 0;
 
   constructor() {   
     makeAutoObservable(this);
+    this.getLetterData();
   }
 
   getLetterData() {
@@ -18,7 +23,22 @@ class GameStoreImpl {
       const req = await axios.get('http://127.0.0.1:8000/api/generateBoard');
       return req.data;
     }
-    fetchData().then(data => this.tileData = data);
+    fetchData().then(data => {
+    this.tileData = data; 
+    this.generateBoard()})    
+  }
+
+  generateBoard() {
+    var allTiles = [];
+    this.tileData.forEach(
+      tile => (
+        allTiles.push(
+          <Tile letter = {tile['letter']} gameStore = {this} inCenter={true} top_pos={tile['pos_y']} left_pos={tile['pos_x']} angle={tile['angle']}/>
+        )
+      )
+    )
+
+    this.shuffledTiles = allTiles.sort(() => Math.random() - 0.5);
   }
 
   getNewGame() {

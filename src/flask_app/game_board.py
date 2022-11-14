@@ -3,7 +3,8 @@ import json
 import copy
 import logging
 import random
-import math
+from tile import Tile
+from player import Player
 
 logging.basicConfig()
 logging.root.setLevel(logging.NOTSET)
@@ -16,6 +17,7 @@ class GameBoard:
         self.board_state = {}
         self.tiles_in_play = {}
         self.tile_positions = []
+        self.players = [Player('Wesley')]
         self.generate_game_board()
 
     def lookup_word(self, word):
@@ -58,8 +60,8 @@ class GameBoard:
                 self.tile_positions.append(tile)
 
     def get_random_tile_pos(self, letter, num):
-        px = random.randrange(0, 100)
-        py = random.randrange(0, 100)
+        px = random.randrange(5, 90)
+        py = random.randrange(5, 90)
         angle = random.randrange(0, 359)
         return Tile(letter, num, px, py, angle)
 
@@ -85,8 +87,7 @@ class GameBoard:
 
                 minA = maxA = None
                 for j in range(len(a)):
-                    projected = normal['x'] * a[j][0] + \
-                        normal['y'] * a[j][1]
+                    projected = normal['x'] * a[j][0] + normal['y'] * a[j][1]
                     if (not minA or projected < minA):
                         minA = projected
                     if (not maxA or projected > maxA):
@@ -94,8 +95,7 @@ class GameBoard:
 
                 minB = maxB = None
                 for j in range(len(b)):
-                    projected = normal['x'] * b[j][0] + \
-                        normal['y'] * b[j][1]
+                    projected = normal['x'] * b[j][0] + normal['y'] * b[j][1]
                     if (not minB or projected < minB):
                         minB = projected
                     if (not maxB or projected > maxB):
@@ -104,48 +104,3 @@ class GameBoard:
                 if (maxA < minB or maxB < minA):
                     return False
         return True
-
-
-class Tile:
-    def __init__(self, letter, number, pos_x, pos_y, angle):
-        self.id = letter + str(number)
-        self.letter = letter
-        self.number = number
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.angle = angle
-        self.side_len = 6
-        self.vertices = self.get_vertices()
-
-    def __repr__(self):
-        return json.dumps(self.get_json())
-
-    def get_json(self):
-        return {'id': self.id,
-                'letter': self.letter,
-                'pos_x': self.pos_x,
-                'pos_y': self.pos_y,
-                'angle': self.angle}
-
-    def get_vertices(self):
-        def rotate(x, y, angle):
-            angle *= math.pi/180
-            xp = x * math.cos(angle) - y * math.sin(angle)
-            yp = y * math.cos(angle) + x * math.sin(angle)
-            return (xp, yp)
-
-        def translate(point):
-            return (round(point[0]+self.pos_x, 2), round(point[1]+self.pos_y, 2))
-
-        vertices = [
-            (0, 0),
-            (0, self.side_len),
-            (self.side_len, self.side_len),
-            (self.side_len, 0)
-        ]
-
-        for i in range(len(vertices)):
-            vertices[i] = translate(
-                rotate(vertices[i][0], vertices[i][1], self.angle))
-
-        return vertices
