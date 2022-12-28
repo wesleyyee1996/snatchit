@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import PlayerWord from './PlayerWord';
 
-const PlayerView = observer(({playerStore, gameStore}) => {
+const PlayersContainer = observer(({playerStore, gameStore}) => {
 
   return (
     <div>
@@ -11,4 +11,4 @@ const PlayerView = observer(({playerStore, gameStore}) => {
   );
 });
 
-export default PlayerView;
+export default PlayersContainer;

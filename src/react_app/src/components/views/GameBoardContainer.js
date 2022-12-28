@@ -6,8 +6,12 @@ import GameBoard from './GameBoard';
 import NewGame from './NewGame';
 import Sidebar from './Sidebar';
 import WordForm from './WordForm';
+import PlayerStore from '../stores/PlayerStore';
+import PlayersContainer from './PlayersContainer';
 
 const GameBoardContainer = observer(({gameStore}) => {
+
+  let playerStore = new PlayerStore();
 
   return(    
     <>
@@ -17,6 +21,7 @@ const GameBoardContainer = observer(({gameStore}) => {
         <WordForm gameStore={gameStore}/> 
         <NewGame gameStore={gameStore}/>        
       </StyledGameBoardContainer>
+      {/* <PlayersContainer playerStore={playerStore} gameStore={gameStore}/> */}
     </>
   )
 });

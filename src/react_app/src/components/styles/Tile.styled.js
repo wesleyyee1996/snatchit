@@ -25,7 +25,7 @@ export const StyledCenterTile = styled(StyledTile)`
   position: absolute;
   top: ${props => props.top_pos}%;
   left: ${props => props.left_pos}%;
-  transform: rotate(${props => props.angle}deg);
+  transform: rotate(-${props => props.angle}deg);
 `
 
 export const StyledPlayerTile = styled(StyledTile)`

@@ -5,6 +5,6 @@ export const StyledPlayerWord = styled.div`
   // flex-direction: row;
   text-align: left;
   max-height: 7vh;
-  max-width: ${props => props.width}vh;
+  // max-width: ${props => props.width}vh;
   // justify-content: space-around;
 `

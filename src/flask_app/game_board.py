@@ -3,12 +3,16 @@ import json
 import copy
 import logging
 import random
+import math
 from tile import Tile
 from player import Player
 
 logging.basicConfig()
 logging.root.setLevel(logging.NOTSET)
 logging.basicConfig(level=logging.NOTSET)
+
+BOARD_LEFT = 5
+BOARD_RIGHT = 90
 
 
 class GameBoard:
@@ -17,6 +21,7 @@ class GameBoard:
         self.board_state = {}
         self.tiles_in_play = {}
         self.tile_positions = []
+        self.num_tiles = 0
         self.players = [Player('Wesley')]
         self.generate_game_board()
 
@@ -49,19 +54,42 @@ class GameBoard:
             parsed_yml = yaml.safe_load(stream)
             for key, val in parsed_yml.items():
                 self.board_state[key] = int(val)
+                self.num_tiles += int(val)
         self.generate_tile_positions()
 
     def generate_tile_positions(self):
+
+        def get_xy_from_index(i):
+            divisor = math.floor(math.sqrt(self.num_tiles))
+            x = math.floor(i/divisor)*10+random.randrange(0, 5)
+            y = (i % divisor)*10+random.randrange(0, 5)
+            return (x, y)
+
+        randomized_index = list(range(0, self.num_tiles))
+        random.shuffle(randomized_index)
+        self.logger.info(randomized_index)
+        k = 0
         for letter, num in self.board_state.items():
             for i in range(num):
-                tile = self.get_random_tile_pos(letter, num)
-                while not self.valid_tile_position(tile):
-                    tile = self.get_random_tile_pos(letter, num)
+                x, y = get_xy_from_index(randomized_index[k])
+                angle = random.randrange(0, 359)
+                tile = Tile(letter, i, x, y, angle)
                 self.tile_positions.append(tile)
+                self.logger.info(tile)
+                k += 1
+
+    # def generate_tile_positions(self):
+    #     for letter, num in self.board_state.items():
+    #         for i in range(num):
+    #             tile = self.get_random_tile_pos(letter, num)
+    #             while not self.valid_tile_position(tile):
+    #                 tile = self.get_random_tile_pos(letter, num)
+    #                 self.logger.info(tile)
+    #             self.tile_positions.append(tile)
 
     def get_random_tile_pos(self, letter, num):
-        px = random.randrange(5, 90)
-        py = random.randrange(5, 90)
+        px = random.randrange(BOARD_LEFT, BOARD_RIGHT)
+        py = random.randrange(BOARD_LEFT, BOARD_RIGHT)
         angle = random.randrange(0, 359)
         return Tile(letter, num, px, py, angle)
 
