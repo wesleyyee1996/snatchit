@@ -4,7 +4,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import GameBoard from './GameBoard';
 import Sidebar from './Sidebar';
 import styled from 'styled-components'
-import PlayerStore from '../stores/PlayerStore';
 
 const StyledGameBoardContainer = styled.div`
   height: 97vh;
@@ -16,8 +15,6 @@ const StyledGameBoardContainer = styled.div`
 `
 
 const GameBoardContainer = observer(({gameStore}) => {
-
-  let playerStore = new PlayerStore();
 
   return(    
     <>
@@ -31,7 +28,7 @@ const GameBoardContainer = observer(({gameStore}) => {
           </StyledGameBoardContainer>
         </div>
         <div class="col">
-          <Sidebar gameStore={gameStore} playerStore={playerStore}/> 
+          <Sidebar gameStore={gameStore}/> 
         </div>
       </div>
       </div>

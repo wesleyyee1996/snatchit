@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 from game_board import GameBoard
 
@@ -8,10 +8,13 @@ CORS(app)
 game = GameBoard()
 
 
-@app.route('/api/word/<value>')
-def submit_word(value):
-    isValidWord = game.lookup_word(value)
+@app.route('/api/word', methods=['GET'])
+def submit_word():
+    word = request.args.get('word', None)
+    player_id = int(request.args.get('player_id', None))
+    isValidWord = game.lookup_word(word)
     if isValidWord:
+        game.player_store.add_player_word(word, player_id)
         return 'Valid'
     return 'Invalid'
 

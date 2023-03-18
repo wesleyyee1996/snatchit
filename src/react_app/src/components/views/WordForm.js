@@ -7,7 +7,7 @@ const WordForm = observer(({gameStore}) => {
 
   const submitWord = (e) => {
     e.preventDefault();
-    gameStore.getSubmitWord(wordText);
+    gameStore.getSubmitWord(wordText, gameStore.playerStore.currentPlayer.id);
     setWordText('');
   }
   

@@ -1,10 +1,14 @@
+import { makeAutoObservable } from "mobx";
+
 class Player {
 
   words = [];
   points = 0;
 
   constructor (name) {
+    makeAutoObservable(this)
     this.name = name
+    this.id = 1
   }
 
   addWord(word) {

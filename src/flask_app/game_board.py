@@ -5,7 +5,7 @@ import logging
 import random
 import math
 from tile import Tile
-from player import Player
+from player_store import PlayerStore
 
 logging.basicConfig()
 logging.root.setLevel(logging.NOTSET)
@@ -22,7 +22,7 @@ class GameBoard:
         self.tiles_in_play = {}
         self.tile_positions = []
         self.num_tiles = 0
-        self.players = [Player('Wesley')]
+        self.player_store = PlayerStore()
         self.generate_game_board()
 
     def lookup_word(self, word):

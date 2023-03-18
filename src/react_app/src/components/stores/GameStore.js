@@ -2,6 +2,7 @@ import { makeAutoObservable} from "mobx"
 import React from 'react'
 import axios from 'axios'
 import Tile from "../views/Tile";
+import PlayerStore from '../stores/PlayerStore';
 
 class GameStoreImpl {
 
@@ -12,6 +13,8 @@ class GameStoreImpl {
   fetchedLetterData = false;
 
   currentPlayer = 0;
+
+  playerStore = new PlayerStore();
 
   constructor() {   
     makeAutoObservable(this);
@@ -52,15 +55,26 @@ class GameStoreImpl {
     );
   }
 
-  getSubmitWord(wordText) {
-    axios.get('http://127.0.0.1:8000/api/word/'+wordText).then(
-      res => {
-        console.log(res);
-      }).catch(
-      error => {
-        console.log(error);
+  getSubmitWord(wordText, playerId) {
+    async function fetchData() {
+      const req = await axios.get('http://127.0.0.1:8000/api/word?word='+wordText+'&player_id='+playerId);
+      console.log(req)
+      return req.data;
+    }
+    fetchData().then(data => {
+      const isValid = data;
+      if (isValid === 'Valid') {
+        this.playerStore.addPlayerWord(wordText, playerId);
       }
-    );
+    })
+    // axios.get('http://127.0.0.1:8000/api/word?word='+wordText+'&player_id='+playerId).then(
+    //   res => {
+    //     console.log(res);
+    //   }).catch(
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   postTileFlipped(letter) {

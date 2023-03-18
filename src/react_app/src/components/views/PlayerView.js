@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React from 'react';
 import PlayerWord from './PlayerWord';
 
-const PlayerView = observer(({playerStore, gameStore}) => {
+const PlayerView = observer(({playerStore}) => {
 
   const formPlayerName = (name) => {
     return <div><h3>
@@ -23,7 +23,7 @@ const PlayerView = observer(({playerStore, gameStore}) => {
   return (
     <div class="container-fluid">
       {
-        playerStore.players.map((p) => (
+        Array.from(playerStore.players.values()).map((p) => (
             <div class="row flex-row mb-3">
               <div class="row text-center">
                 {formPlayerName(p.name)}

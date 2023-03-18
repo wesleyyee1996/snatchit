@@ -13,7 +13,7 @@ const StyledSidebar = styled.div`
   background-color: white;
 `
 
-const Sidebar = ({gameStore, playerStore}) => {
+const Sidebar = ({gameStore}) => {
 
   return (
     <StyledSidebar>
@@ -27,7 +27,7 @@ const Sidebar = ({gameStore, playerStore}) => {
           </form>
         </div>
         <div class="row p-1">
-          <PlayerView playerStore={playerStore}></PlayerView>
+          <PlayerView playerStore={gameStore.playerStore}></PlayerView>
         </div>
       
     </div>
