@@ -13,9 +13,17 @@ const WordForm = observer(({gameStore}) => {
   
   return(
     <form>
-      <label>Word: </label>
-      <input type='text' value={wordText} onChange={(e)=>{setWordText(e.target.value)}}/>
-      <button onClick={(e) => submitWord(e)}> Submit</button>
+      <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label class="form-label">Word: </label>
+        </div>
+        <div class="col-auto">
+          <input class="form-control" type='text' value={wordText} onChange={(e)=>{setWordText(e.target.value)}}/>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" onClick={(e) => submitWord(e)}> Submit</button>
+        </div>
+      </div>
     </form>
   );
 });

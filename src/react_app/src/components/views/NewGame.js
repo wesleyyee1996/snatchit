@@ -5,7 +5,7 @@ const NewGame = observer(({gameStore}) => {
 
   return (
     <form>
-      <button onClick={gameStore.getNewGame()}>New Game</button>
+      <button class="btn btn-primary" onClick={gameStore.getNewGame()}>New Game</button>
     </form>
   );
 });
