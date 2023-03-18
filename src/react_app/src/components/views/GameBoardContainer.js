@@ -5,10 +5,9 @@ import GameBoard from './GameBoard';
 import Sidebar from './Sidebar';
 import styled from 'styled-components'
 import PlayerStore from '../stores/PlayerStore';
-import PlayersContainer from './PlayersContainer';
 
 const StyledGameBoardContainer = styled.div`
-  height: 100vh;
+  height: 97vh;
   display: flex;
   flex-direction: row;
   gap: 1rem;

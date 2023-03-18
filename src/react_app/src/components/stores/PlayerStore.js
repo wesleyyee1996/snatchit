@@ -12,6 +12,12 @@ export default class PlayerStore {
     wesPlayer.addWord("hello")
     wesPlayer.addWord("testing")
     this.players.push(wesPlayer)
+    const janicePlayer = new Player("janice");
+    janicePlayer.addWord("hahaha")
+    janicePlayer.addWord("aku")
+    janicePlayer.addWord("cinta")
+    janicePlayer.addWord("kamu")
+    this.players.push(janicePlayer)
   }  
 
 }

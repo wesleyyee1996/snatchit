@@ -5,9 +5,11 @@ import PlayerWord from './PlayerWord';
 const PlayerView = observer(({playerStore, gameStore}) => {
 
   const formPlayerName = (name) => {
-    return <h3>
-      {name}
+    return <div><h3>
+      <strong>Player: </strong>
+      <small>{name}</small>
     </h3>
+    </div>
   }
 
   const formPlayerWords = (player) => {
@@ -22,7 +24,7 @@ const PlayerView = observer(({playerStore, gameStore}) => {
     <div class="container-fluid">
       {
         playerStore.players.map((p) => (
-            <div class="row">
+            <div class="row flex-row mb-3">
               <div class="row text-center">
                 {formPlayerName(p.name)}
               </div>
