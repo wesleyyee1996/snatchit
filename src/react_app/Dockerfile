@@ -3,10 +3,11 @@ FROM node:16.10.0
 
 WORKDIR /app
 COPY package.json .
-RUN npm config set legacy-peer-deps true &&\
-  npm install
+RUN npm config set legacy-peer-deps true  
 RUN npm install styled-components
 RUN npm install --save read-yaml
+RUN npm install --save react-bootstrap bootstrap
+RUN npm install
 COPY . .
 EXPOSE 3000
 
