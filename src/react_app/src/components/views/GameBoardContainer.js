@@ -1,13 +1,20 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { StyledGameBoardContainer } from '../styles/GameBoardContainer.styled';
-
+import Navbar from 'react-bootstrap/Navbar'
 import GameBoard from './GameBoard';
-import NewGame from './NewGame';
 import Sidebar from './Sidebar';
-import WordForm from './WordForm';
+import styled from 'styled-components'
 import PlayerStore from '../stores/PlayerStore';
 import PlayersContainer from './PlayersContainer';
+
+const StyledGameBoardContainer = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  background-color: green;
+  bottom: 10%;
+`
 
 const GameBoardContainer = observer(({gameStore}) => {
 
@@ -15,13 +22,20 @@ const GameBoardContainer = observer(({gameStore}) => {
 
   return(    
     <>
-      <StyledGameBoardContainer>
-        <Sidebar gameStore={gameStore}/>
-        <GameBoard gameStore={gameStore}/>
-        <WordForm gameStore={gameStore}/> 
-        <NewGame gameStore={gameStore}/>        
-      </StyledGameBoardContainer>
-      {/* <PlayersContainer playerStore={playerStore} gameStore={gameStore}/> */}
+    <Navbar></Navbar>
+    
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-8">
+          <StyledGameBoardContainer>
+            <GameBoard gameStore={gameStore}/>
+          </StyledGameBoardContainer>
+        </div>
+        <div class="col">
+          <Sidebar gameStore={gameStore} playerStore={playerStore}/> 
+        </div>
+      </div>
+      </div>
     </>
   )
 });
