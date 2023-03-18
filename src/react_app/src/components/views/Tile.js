@@ -3,9 +3,11 @@ import { StyledTile, StyledCenterTile, StyledPlayerTile } from '../styles/Tile.s
 import { StyledTileLetter } from '../styles/TileLetter.styled';
 import { observer } from 'mobx-react-lite';
 
-const Tile = observer(({gameStore, letter, inCenter, top_pos, left_pos, angle}) => {
+const Tile = observer(({gameStore, id, letter, inCenter, top_pos, left_pos, angle}) => {
 
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const [isHidden, setIsHidden] = useState(false);
 
   const sendFlipped = () => {
     if (isFlipped === true) {

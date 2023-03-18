@@ -1,14 +1,13 @@
 import { makeAutoObservable } from "mobx";
 
 class Player {
-
   words = [];
   points = 0;
 
-  constructor (name) {
-    makeAutoObservable(this)
-    this.name = name
-    this.id = 1
+  constructor(name) {
+    makeAutoObservable(this);
+    this.name = name;
+    this.id = 1;
   }
 
   addWord(word) {
@@ -20,7 +19,6 @@ class Player {
     this.words.splice(this.words.indexOf(word), 1);
     this.points -= word.length;
   }
-
 }
 
 export default Player;

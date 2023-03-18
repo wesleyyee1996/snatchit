@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components'
-import WordForm from './WordForm';
-import PlayerView from './PlayerView';
+import React from "react";
+import styled from "styled-components";
+import WordForm from "./WordForm";
+import PlayerView from "./PlayerView";
 
 const StyledSidebar = styled.div`
   // display: flex;
@@ -11,26 +11,26 @@ const StyledSidebar = styled.div`
   // flex-grow: 1;
   // margin: 2vh;
   background-color: white;
-`
+`;
 
-const Sidebar = ({gameStore}) => {
-
+const Sidebar = ({ gameStore }) => {
   return (
     <StyledSidebar>
       <div class="container p-1">
         <div class="row p-1">
-          <WordForm gameStore={gameStore}/> 
+          <WordForm gameStore={gameStore} />
         </div>
         <div class="row p-1">
           <form>
-            <button class="btn btn-primary" onClick={gameStore.getNewGame()}>New Game</button>
+            <button class="btn btn-primary" onClick={gameStore.getNewGame()}>
+              New Game
+            </button>
           </form>
         </div>
         <div class="row p-1">
           <PlayerView playerStore={gameStore.playerStore}></PlayerView>
         </div>
-      
-    </div>
+      </div>
     </StyledSidebar>
   );
 };

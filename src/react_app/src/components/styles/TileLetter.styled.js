@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledTileLetter = styled.div`
   width: 4.5vmin;
@@ -8,4 +8,4 @@ export const StyledTileLetter = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-`
+`;
