@@ -14,9 +14,11 @@ const PlayerWord = observer(({gameStore, word}) => {
   };
 
   return (
-    <StyledPlayerWord width={word.length * 8}>
-      {createWordTiles().map((letter) => <Tile gameStore={gameStore} letter={letter} inCenter={false}/>)}
-    </StyledPlayerWord>
+    <div class="container mb-1">
+      <StyledPlayerWord width={word.length * 8}>
+        {createWordTiles().map((letter) => <Tile gameStore={gameStore} letter={letter} inCenter={false}/>)}
+      </StyledPlayerWord>
+    </div>
   );
 });
 

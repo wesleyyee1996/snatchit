@@ -67,14 +67,6 @@ class GameStoreImpl {
         this.playerStore.addPlayerWord(wordText, playerId);
       }
     })
-    // axios.get('http://127.0.0.1:8000/api/word?word='+wordText+'&player_id='+playerId).then(
-    //   res => {
-    //     console.log(res);
-    //   }).catch(
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   postTileFlipped(letter) {
