@@ -3,7 +3,7 @@
 class Player:
 
     def __init__(self, name):
-        self.words = []
+        self.words = [] # list of Word objects
         self.points = 0
         self.name = name
 
@@ -13,7 +13,7 @@ class Player:
 
     def remove_word(self, word):
         self.words.remove(word)
-        self.remove_points(len(word))
+        self.subtract_points(len(word))
 
     def add_points(self, pts):
         self.points += pts

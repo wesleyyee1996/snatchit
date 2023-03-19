@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { observer } from "mobx-react-lite";
+import Tile from "../views/Tile";
 
 const StyledGameBoard = styled.div`
   width: 100%;
@@ -15,7 +16,9 @@ const GameBoard = observer(({ gameStore }) => {
     <>
       <StyledGameBoard>
         {Array.from(gameStore.tileData.values()).map((tile) => (
-          <div>{tile}</div>
+          <div>
+            <Tile gameStore={gameStore} tileObj={tile}></Tile>
+          </div>
         ))}
       </StyledGameBoard>
     </>

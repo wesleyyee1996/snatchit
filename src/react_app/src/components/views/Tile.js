@@ -1,55 +1,48 @@
-import React, {useState} from 'react'
-import { StyledTile, StyledCenterTile, StyledPlayerTile } from '../styles/Tile.styled';
-import { StyledTileLetter } from '../styles/TileLetter.styled';
-import { observer } from 'mobx-react-lite';
+import React, { useState } from "react";
+import {
+  StyledTile,
+  StyledCenterTile,
+  StyledPlayerTile,
+} from "../styles/Tile.styled";
+import { StyledTileLetter } from "../styles/TileLetter.styled";
+import { observer } from "mobx-react-lite";
 
-const Tile = observer(({gameStore, id, letter, inCenter, top_pos, left_pos, angle}) => {
+const Tile = observer(({ gameStore, tileObj }) => {
+  // const [isFlipped, setIsFlipped] = useState(false);
 
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const [isHidden, setIsHidden] = useState(false);
+  // const isHidden = false;
 
   const sendFlipped = () => {
-    if (isFlipped === true) {
+    if (tileObj.isFlipped === true) {
       return;
     }
-    gameStore.postTileFlipped(letter);
-    setIsFlipped(true);
-  }
+    gameStore.postTileFlipped(tileObj.id);
+    tileObj.isFlipped = true;
+  };
 
   const renderTileLetter = () => {
-    return (
-      (
-        <StyledTileLetter> 
-          {
-            letter
-          }
-        </StyledTileLetter>
-    ))
+    return <StyledTileLetter>{tileObj.letter}</StyledTileLetter>;
   };
 
   return (
     <div>
-        {
-          inCenter && (
-            <StyledCenterTile top_pos = {top_pos} left_pos = {left_pos} angle={angle}
-              onClick={() => {
-              sendFlipped(); 
-            }}> 
-              {isFlipped && renderTileLetter()}      
-            </StyledCenterTile>
-          )
-        }
-        {
-          !inCenter && (
-            <StyledPlayerTile> 
-              {renderTileLetter()}      
-            </StyledPlayerTile>
-          )
-        }
+      {tileObj.inCenter && (
+        <StyledCenterTile
+          top_pos={tileObj.top_pos}
+          left_pos={tileObj.left_pos}
+          angle={tileObj.angle}
+          onClick={() => {
+            sendFlipped();
+          }}
+        >
+          {tileObj.isFlipped && !tileObj.isHidden && renderTileLetter()}
+        </StyledCenterTile>
+      )}
+      {!tileObj.inCenter && (
+        <StyledPlayerTile>{renderTileLetter()}</StyledPlayerTile>
+      )}
     </div>
   );
 });
 
 export default Tile;
-    

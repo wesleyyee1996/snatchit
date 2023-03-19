@@ -1,20 +1,25 @@
 import math
 import json
 
-
 class Tile:
-    def __init__(self, letter, number, pos_x, pos_y, angle):
+    def __init__(self, letter, number):
         self.id = letter + str(number)
         self.letter = letter
         self.number = number
-        self.pos_x = pos_x
-        self.pos_y = pos_y
-        self.angle = angle
         self.side_len = 6
-        self.vertices = self.get_vertices()
+        self.is_flipped = False
 
     def __repr__(self):
         return json.dumps(self.get_json())
+    
+    def set_position(self, pos_x, pos_y, angle):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        self.angle = angle
+        self.vertices = self.get_vertices()
+
+    def flip(self):
+        self.is_flipped = True
 
     def get_json(self):
         return {'id': self.id,

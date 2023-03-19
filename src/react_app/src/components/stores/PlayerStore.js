@@ -9,21 +9,19 @@ export default class PlayerStore {
   constructor() {
     makeAutoObservable(this);
     const wesPlayer = new Player("wesley");
-    wesPlayer.addWord("hello");
-    wesPlayer.addWord("testing");
+    // wesPlayer.addWord("hello");
+    // wesPlayer.addWord("testing");
     this.players.set(1, wesPlayer);
     const janicePlayer = new Player("janice");
-    janicePlayer.addWord("hahaha");
-    janicePlayer.addWord("aku");
-    janicePlayer.addWord("cinta");
-    janicePlayer.addWord("kamu");
+    // janicePlayer.addWord("hahaha");
+    // janicePlayer.addWord("aku");
+    // janicePlayer.addWord("cinta");
+    // janicePlayer.addWord("kamu");
     this.players.set(2, janicePlayer);
     this.currentPlayer = this.players.get(1);
   }
 
   addPlayerWord(word, playerId) {
     this.players.get(playerId).addWord(word);
-    console.log(this.players.get(playerId));
-    console.log("very");
   }
 }

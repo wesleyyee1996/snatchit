@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from game_board import GameBoard
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -12,16 +13,17 @@ game = GameBoard()
 def submit_word():
     word = request.args.get('word', None)
     player_id = int(request.args.get('player_id', None))
-    isValidWord = game.lookup_word(word)
+    
+    isValidWord, tilesMoved = game.take_word_from_board(word, player_id)
+    print('test', tilesMoved)
     if isValidWord:
-        game.player_store.add_player_word(word, player_id)
-        return 'Valid'
-    return 'Invalid'
+        return json.dumps({'is_valid': True, 'tiles_moved': tilesMoved})
+    return json.dumps({'is_valid':False})
 
 
-@app.route('/api/tile/<letter>', methods=['POST'])
-def letter_flipped(letter):
-    game.set_letter_flipped(letter)
+@app.route('/api/tile', methods=['POST'])
+def letter_flipped():
+    game.set_letter_flipped(request.args.get('tile_id', None))
     return game.get_board_state_json()
 
 
