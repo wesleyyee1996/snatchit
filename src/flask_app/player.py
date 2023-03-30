@@ -1,4 +1,5 @@
-
+import json
+from word import Word
 
 class Player:
 
@@ -7,11 +8,14 @@ class Player:
         self.points = 0
         self.name = name
 
-    def add_word(self, word):
+    def __repr__(self):
+        return json.dumps(self.get_dict_repr())
+
+    def add_word(self, word: Word):
         self.words.append(word)
         self.add_points(len(word))
 
-    def remove_word(self, word):
+    def remove_word(self, word: Word):
         self.words.remove(word)
         self.subtract_points(len(word))
 
@@ -20,3 +24,13 @@ class Player:
 
     def subtract_points(self, pts):
         self.points -= pts
+
+    def get_dict_repr(self):
+        return {
+            'name': self.name,
+            'points': self.points,
+            'words': [x.get_dict_repr() for x in self.words]
+        }
+    
+    def reset(self):
+        self.__init__(self.name)

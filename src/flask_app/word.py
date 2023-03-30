@@ -5,10 +5,10 @@ class Word:
         self.tiles = tiles
 
     def __repr__(self):
-        word = ''
+        self.word = ''
         for t in self.tiles:
-            word += t.letter
-        return word
+            self.word += t.letter
+        return self.word
     
     def __len__(self):
         return len(self.tiles)
@@ -22,3 +22,11 @@ class Word:
 
     def tile_ids(self):
         return [t.id for t in self.tiles]
+    
+    def get_dict_repr(self):
+        return {
+            self.__repr__() : [x.get_dict_repr() for x in self.tiles]
+        }
+    
+    def reset(self):
+        self.tiles = []

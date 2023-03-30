@@ -27,6 +27,12 @@ class Tile:
                 'pos_x': self.pos_x,
                 'pos_y': self.pos_y,
                 'angle': self.angle}
+    
+    def get_dict_repr(self):
+        return {
+            'id': self.id,
+            'letter': self.letter
+        }
 
     def get_vertices(self):
         def rotate(x, y, angle):
