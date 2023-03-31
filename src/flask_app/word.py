@@ -23,9 +23,9 @@ class Word:
     def tile_ids(self):
         return [t.id for t in self.tiles]
     
-    def get_dict_repr(self):
+    def get_dict_repr(self, include_tile_pos: bool = False):
         return {
-            self.__repr__() : [x.get_dict_repr() for x in self.tiles]
+            self.__repr__() : [x.get_dict_repr(include_tile_pos) for x in self.tiles]
         }
     
     def reset(self):

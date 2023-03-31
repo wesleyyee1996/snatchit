@@ -25,11 +25,11 @@ class Player:
     def subtract_points(self, pts):
         self.points -= pts
 
-    def get_dict_repr(self):
+    def get_dict_repr(self, include_tile_pos: bool = False):
         return {
             'name': self.name,
             'points': self.points,
-            'words': [x.get_dict_repr() for x in self.words]
+            'words': [x.get_dict_repr(include_tile_pos) for x in self.words]
         }
     
     def reset(self):

@@ -1,47 +1,51 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_classful import FlaskView, route
 from game_board import GameBoard
 import json
 
+app = Flask(__name__)
+CORS(app)
 
-class SnatchItApp:
-    app = Flask(__name__)
-    CORS(app)
+class SnatchItApp(FlaskView):
+    route_base = '/'
+    route_prefix = '/api/'
 
     def __init__(self):
-        self.configure_routes()
         self.game = GameBoard()
 
-    def configure_routes(self):
-
-        @self.app.route('/api/word', methods=['GET'])
-        def submit_word():
-            word = request.args.get('word', None)
-            player_id = int(request.args.get('player_id', None))
-            
-            isValidWord, tilesMoved = self.game.take_word_from_board(word, player_id)
-            if isValidWord:
-                return json.dumps({'is_valid': True, 'tiles_moved': tilesMoved})
-            return json.dumps({'is_valid':False})
-
-
-        @self.app.route('/api/tile', methods=['POST'])
-        def letter_flipped():
-            self.game.set_letter_flipped(request.args.get('tile_id', None))
-            return self.game.get_board_state_json()
+    @route('/tile')
+    def tile(self):
+        tile_id = request.args.get('tile_id', None)
+        self.game.set_letter_flipped(tile_id)
+        return json.dumps({'game_state': self.game.get_dict_repr(include_tile_pos = False)})
+    
+    @route('/word')
+    def word(self):
+        word = request.args.get('word', None)
+        player_id = int(request.args.get('player_id', None))
+        
+        isValidWord = self.game.take_word_from_board(word, player_id)
+        return json.dumps({'is_valid': isValidWord, 'game_state': self.game.get_dict_repr(include_tile_pos = False)})
 
 
-        @self.app.route('/api/newgame')
-        def new_game():
-            self.game.reset()
-            return jsonify(success=True)
+    @route('/newGame')
+    def new_game(self):
+        self.game.reset()
+        return json.dumps({'game_state': self.game.get_dict_repr(include_tile_pos = True)})
 
 
-        @self.app.route('/api/generateBoard')
-        def generate_board():
-            return self.game.get_board_state_json()
+    @route('/generateBoard')
+    def generate_board(self):
+        return json.dumps({'game_state': self.game.get_dict_repr(include_tile_pos = True)})
+    
+    @route('/addPlayer')
+    def add_player(self):
+        player_name = request.args.get('player_name', None)
+        self.game.player_store.add_player(player_name)
+        return json.dumps({'game_state': self.game.get_dict_repr(include_tile_pos = False)})
 
+SnatchItApp.register(app)
 
 if __name__ == '__main__':
-    snatch_it_app = SnatchItApp()
-    snatch_it_app.app.run(host="0.0.0.0", port=8000, debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)

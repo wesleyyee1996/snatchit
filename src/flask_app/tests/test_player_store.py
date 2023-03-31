@@ -18,20 +18,14 @@ class PlayerStoreTestCase(unittest.TestCase):
         self.player_store.reset()
 
     def test_add_player_success(self):
-        self.player_store.add_player(0, 'Wes')
+        self.player_store.add_player('Wes')
         self.assertEqual(self.player_store.num_players(), 1)
-        self.player_store.add_player(1, 'Janice')
+        self.player_store.add_player('Janice')
         self.assertEqual(self.player_store.num_players(), 2)
 
-    def test_add_player_failure(self):
-        self.player_store.add_player(0, 'Wes')
-        self.assertEqual(self.player_store.num_players(), 1)
-        with self.assertRaises(KeyError):
-          self.player_store.add_player(0, 'Wes')
-
     def test_get_dict_repr(self):
-        self.player_store.add_player(0, 'Wes')
-        self.player_store.add_player(1, 'Janice')
+        self.player_store.add_player('Wes')
+        self.player_store.add_player('Janice')
         hello_word = test_utilities.get_hello_word()
         self.player_store.add_player_word(hello_word, 0)
         world_word = test_utilities.get_world_word()
@@ -47,11 +41,11 @@ class PlayerStoreTestCase(unittest.TestCase):
                       "words": [
                           {
                               "hello": [
-                                  {"id": "h0", "letter": "h"},
-                                  {"id": "e0", "letter": "e"},
-                                  {"id": "l0", "letter": "l"},
-                                  {"id": "l1", "letter": "l"},
-                                  {"id": "o0", "letter": "o"},
+                                  {"id": "h0", "letter": "h", "is_flipped": False},
+                                  {"id": "e0", "letter": "e", "is_flipped": False},
+                                  {"id": "l0", "letter": "l", "is_flipped": False},
+                                  {"id": "l1", "letter": "l", "is_flipped": False},
+                                  {"id": "o0", "letter": "o", "is_flipped": False},
                               ]
                           }
                       ],
@@ -63,11 +57,11 @@ class PlayerStoreTestCase(unittest.TestCase):
                       "words": [
                           {
                               "world": [
-                                  {"id": "w0", "letter": "w"},
-                                  {"id": "o1", "letter": "o"},
-                                  {"id": "r0", "letter": "r"},
-                                  {"id": "l2", "letter": "l"},
-                                  {"id": "d0", "letter": "d"},
+                                  {"id": "w0", "letter": "w", "is_flipped": False},
+                                  {"id": "o1", "letter": "o", "is_flipped": False},
+                                  {"id": "r0", "letter": "r", "is_flipped": False},
+                                  {"id": "l2", "letter": "l", "is_flipped": False},
+                                  {"id": "d0", "letter": "d", "is_flipped": False},
                               ]
                           }
                       ],

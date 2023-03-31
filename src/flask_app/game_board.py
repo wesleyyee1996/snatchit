@@ -26,13 +26,13 @@ class GameBoard:
     def reset(self):
         self.__init__()
 
-    def add_player(self, player_id, player_name):
-        self.player_store.add_player(player_id, player_name)
+    def add_player(self, player_name):
+        self.player_store.add_player(player_name)
 
     def tiles_in_play(self):
         return [t for t in self.tiles_on_board.values() if t.is_flipped == True]
 
-    def is_valid_word(self, word):
+    def is_valid_word(self, word: str) -> tuple[bool, Word]:
         """
         Input:
             word: string
@@ -57,7 +57,7 @@ class GameBoard:
         # self.logger.info("word %s is %s" % (word, True))
         return (True, word_to_give_player)
     
-    def take_word_from_board(self, word, player_id):
+    def take_word_from_board(self, word: str, player_id: int) -> bool:
         """
         transfers tiles from board to player when a player successfully gets a word
         Args:
@@ -70,22 +70,25 @@ class GameBoard:
             for tile in word_to_give_player.tiles:
                 del self.tiles_on_board[tile.id]
 
-            self.logger.info('player_store %s' % (self.player_store))
-            return (isValid, word_to_give_player.tile_ids())
+            return True
         
-        # self.logger.info('player_store %s' % (self.player_store))
-        return (False, [])
+        return False
 
-    def get_dict_repr(self):
+    def get_dict_repr(self, include_tile_pos: bool = False):
+        tiles_on_board = {}
+        for tile_id, tile_obj in self.tiles_on_board.items():
+            tiles_on_board[tile_id] = tile_obj.get_dict_repr(include_tile_pos)
         return {
-            'tiles_on_board': [{tile_id : tile_obj.get_dict_repr()} for tile_id, tile_obj in self.tiles_on_board.items()],
-            'player_store': self.player_store.get_dict_repr()
+            'tiles_on_board': tiles_on_board,
+            'player_store': self.player_store.get_dict_repr(False)
         }
 
     def get_board_state_json(self):
         return json.dumps(list(self.tiles_on_board.values()), default=lambda x: x.get_json(), indent=4)
 
     def set_letter_flipped(self, tile_id):
+        if tile_id not in self.tiles_on_board:
+            raise KeyError("The tile %s is not a valid tile id" % (tile_id))
         self.tiles_on_board[tile_id].flip()
         # self.logger.info('tiles in play %s' % (self.tiles_in_play()))
 

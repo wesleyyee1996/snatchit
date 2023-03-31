@@ -43,11 +43,11 @@ class PlayerTestCase(unittest.TestCase):
             'words': [
                 {'hello':
                  [
-                    {'id': 'h0', 'letter': 'h'},
-                     {'id': 'e0', 'letter': 'e'},
-                     {'id': 'l0', 'letter': 'l'},
-                     {'id': 'l1', 'letter': 'l'},
-                     {'id': 'o0', 'letter': 'o'}
+                    {'id': 'h0', 'letter': 'h', "is_flipped": False},
+                     {'id': 'e0', 'letter': 'e', "is_flipped": False},
+                     {'id': 'l0', 'letter': 'l', "is_flipped": False},
+                     {'id': 'l1', 'letter': 'l', "is_flipped": False},
+                     {'id': 'o0', 'letter': 'o', "is_flipped": False}
                  ]
                  }
             ]
@@ -64,20 +64,20 @@ class PlayerTestCase(unittest.TestCase):
             "words": [
                 {
                     "hello": [
-                        {"id": "h0", "letter": "h"},
-                        {"id": "e0", "letter": "e"},
-                        {"id": "l0", "letter": "l"},
-                        {"id": "l1", "letter": "l"},
-                        {"id": "o0", "letter": "o"},
+                        {"id": "h0", "letter": "h", "is_flipped": False},
+                        {"id": "e0", "letter": "e", "is_flipped": False},
+                        {"id": "l0", "letter": "l", "is_flipped": False},
+                        {"id": "l1", "letter": "l", "is_flipped": False},
+                        {"id": "o0", "letter": "o", "is_flipped": False},
                     ]
                 },
                 {
                     "world": [
-                        {"id": "w0", "letter": "w"},
-                        {"id": "o1", "letter": "o"},
-                        {"id": "r0", "letter": "r"},
-                        {"id": "l2", "letter": "l"},
-                        {"id": "d0", "letter": "d"},
+                        {"id": "w0", "letter": "w", "is_flipped": False},
+                        {"id": "o1", "letter": "o", "is_flipped": False},
+                        {"id": "r0", "letter": "r", "is_flipped": False},
+                        {"id": "l2", "letter": "l", "is_flipped": False},
+                        {"id": "d0", "letter": "d", "is_flipped": False},
                     ]
                 },
             ],

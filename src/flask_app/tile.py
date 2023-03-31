@@ -10,7 +10,7 @@ class Tile:
         self.is_flipped = False
 
     def __repr__(self):
-        return json.dumps(self.get_json())
+        return json.dumps(self.get_dict_repr(True))
     
     def set_position(self, pos_x, pos_y, angle):
         self.pos_x = pos_x
@@ -20,19 +20,18 @@ class Tile:
 
     def flip(self):
         self.is_flipped = True
-
-    def get_json(self):
-        return {'id': self.id,
-                'letter': self.letter,
-                'pos_x': self.pos_x,
-                'pos_y': self.pos_y,
-                'angle': self.angle}
     
-    def get_dict_repr(self):
-        return {
+    def get_dict_repr(self, include_positions: bool = False):
+        data = {
             'id': self.id,
-            'letter': self.letter
+            'letter': self.letter,
+            'is_flipped': self.is_flipped
         }
+        if include_positions:
+            data['pos_x'] = self.pos_x
+            data['pos_y'] = self.pos_y
+            data['angle'] = self.angle
+        return data
 
     def get_vertices(self):
         def rotate(x, y, angle):
