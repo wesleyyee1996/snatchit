@@ -12,15 +12,21 @@ const StyledGameBoard = styled.div`
 `;
 
 const GameBoard = observer(({ gameStore }) => {
+  const renderTiles = (tilesMap) => {
+    const tilesComps = [];
+    tilesMap.forEach((tileObj, tile_id) =>
+      tilesComps.push(
+        <div>
+          <Tile key={tile_id} gameStore={gameStore} tileObj={tileObj}></Tile>
+        </div>
+      )
+    );
+    return tilesComps;
+  };
+
   return (
     <>
-      <StyledGameBoard>
-        {Array.from(gameStore.tileData.values()).map((tile) => (
-          <div>
-            <Tile gameStore={gameStore} tileObj={tile}></Tile>
-          </div>
-        ))}
-      </StyledGameBoard>
+      <StyledGameBoard>{renderTiles(gameStore.tileData)}</StyledGameBoard>
     </>
   );
 });

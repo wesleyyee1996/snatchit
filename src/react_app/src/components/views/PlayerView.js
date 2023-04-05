@@ -7,7 +7,7 @@ const PlayerView = observer(({ playerStore }) => {
     <div class="container-fluid">
       {Array.from(playerStore.players.values()).map((p) => (
         <div class="row flex-row mb-3">
-          <PlayerCard player={p}></PlayerCard>
+          <PlayerCard key={p.id} player={p}></PlayerCard>
         </div>
       ))}
     </div>

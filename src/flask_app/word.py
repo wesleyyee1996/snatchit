@@ -24,9 +24,10 @@ class Word:
         return [t.id for t in self.tiles]
     
     def get_dict_repr(self, include_tile_pos: bool = False):
-        return {
-            self.__repr__() : [x.get_dict_repr(include_tile_pos) for x in self.tiles]
-        }
+        tile_dict = {}
+        for tile in self.tiles:
+            tile_dict[tile.id] = tile.get_dict_repr(include_tile_pos)
+        return tile_dict
     
     def reset(self):
         self.tiles = []

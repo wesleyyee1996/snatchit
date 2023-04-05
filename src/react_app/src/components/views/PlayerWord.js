@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
 import { StyledPlayerWord } from "../styles/PlayerWord.styled";
-import Tile from "./Tile";
+import PlayerTile from "./PlayerTile";
 
 const PlayerWord = observer(({ gameStore, word }) => {
   function createWordTiles() {
@@ -16,7 +16,7 @@ const PlayerWord = observer(({ gameStore, word }) => {
     <div class="container mb-1">
       <StyledPlayerWord width={word.length * 8}>
         {createWordTiles().map((letter) => (
-          <Tile gameStore={gameStore} letter={letter} inCenter={false} />
+          <PlayerTile letter={letter} />
         ))}
       </StyledPlayerWord>
     </div>

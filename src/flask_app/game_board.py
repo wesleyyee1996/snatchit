@@ -20,14 +20,14 @@ class GameBoard:
         self.logger = logging.getLogger(__name__)
         self.tiles_on_board = {} # {tile_id : Tile}
         self.num_tiles = 0
-        self.player_store = PlayerStore()
+        self.player_store = PlayerStore({})
         self.generate_game_board()
 
     def reset(self):
         self.__init__()
 
-    def add_player(self, player_name):
-        self.player_store.add_player(player_name)
+    def add_player(self, player_id, player_name):
+        self.player_store.add_player(player_id, player_name)
 
     def tiles_in_play(self):
         return [t for t in self.tiles_on_board.values() if t.is_flipped == True]
@@ -51,7 +51,7 @@ class GameBoard:
                     letter_valid = True
                     break
             if not letter_valid:
-                self.logger.info(self.logger.info("word %s is %s" % (word, False)))
+                self.logger.info("word %s is %s" % (word, False))
                 return (False, None)
 
         # self.logger.info("word %s is %s" % (word, True))

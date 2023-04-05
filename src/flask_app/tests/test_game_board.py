@@ -13,8 +13,8 @@ import test_utilities
 class GameBoardTestCase(unittest.TestCase):
     def setUp(self):
         self.game = GameBoard()
-        self.game.add_player('Wes')
-        self.game.add_player('Janice')
+        self.game.add_player(0,'Wes')
+        self.game.add_player(1,'Janice')
 
     def tearDown(self):
         self.game.reset()

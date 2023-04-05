@@ -12,6 +12,18 @@ class Tile {
     this.isHidden = false;
     this.isFlipped = false;
   }
+
+  setIsHidden() {
+    this.isHidden = true;
+  }
+
+  setIsFlipped() {
+    this.isFlipped = true;
+  }
+
+  setInCenter() {
+    this.inCenter = false;
+  }
 }
 
 export default Tile;

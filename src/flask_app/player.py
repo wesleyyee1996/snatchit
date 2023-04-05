@@ -26,10 +26,13 @@ class Player:
         self.points -= pts
 
     def get_dict_repr(self, include_tile_pos: bool = False):
+        word_dict = {}
+        for word in self.words:
+            word_dict[str(word)] = word.get_dict_repr(include_tile_pos)
         return {
             'name': self.name,
             'points': self.points,
-            'words': [x.get_dict_repr(include_tile_pos) for x in self.words]
+            'words': word_dict
         }
     
     def reset(self):

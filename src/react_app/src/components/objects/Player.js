@@ -4,20 +4,24 @@ class Player {
   words = [];
   points = 0;
 
-  constructor(name) {
+  constructor(id, name) {
     makeAutoObservable(this);
     this.name = name;
-    this.id = 1;
+    this.id = id;
   }
 
   addWord(word) {
-    this.words.push(word);
-    this.points += word.length;
+    if (!this.words.includes(word)) {
+      this.words.push(word);
+      this.points += word.length;
+    }
   }
 
   removeWord(word) {
-    this.words.splice(this.words.indexOf(word), 1);
-    this.points -= word.length;
+    if (this.words.includes(word)) {
+      this.words.splice(this.words.indexOf(word), 1);
+      this.points -= word.length;
+    }
   }
 }
 

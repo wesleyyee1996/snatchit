@@ -31,7 +31,7 @@ class SnatchItAppTestCase(unittest.TestCase):
         new_game_response = self.app.get('/api/newGame')
         self.assertEqual(new_game_response.status_code, 200)
 
-        new_game_response = self.app.get('/api/addPlayer?player_name=Wes')
+        new_game_response = self.app.get('/api/addPlayer?player_id=0&player_name=Bill')
         self.assertEqual(new_game_response.status_code, 200)
 
         new_game_state = json.loads(new_game_response.data)['game_state']
@@ -47,8 +47,11 @@ class SnatchItAppTestCase(unittest.TestCase):
     def test_submit_word(self):
         response = self.app.get('/api/word?word=hello&player_id=1')
         self.assertEqual(response.status_code, 200)
+        data = json.loads(response.data)
+        self.assertFalse(data['is_valid'])
 
-        self.app.get('/api/addPlayer?player_name=Wes')
+        self.app.get('/api/addPlayer?player_id=0&player_name=Wes')
+        self.app.get('/api/addPlayer?player_id=1&player_name=Bar')
         
         self.app.get('/api/tile?tile_id=h0')
         self.app.get('/api/tile?tile_id=e0')
@@ -58,6 +61,24 @@ class SnatchItAppTestCase(unittest.TestCase):
 
         response = self.app.get('/api/word?word=hello&player_id=0')
         self.assertTrue(response.status_code, 200)
+        data = json.loads(response.data)
+        self.assertTrue(data['is_valid'])
+        self.assertIn('hello', data['game_state']['player_store']['players'][0]['0']['words'][0].keys())
+        self.assertNotIn('h0', data['game_state']['tiles_on_board'].keys())
+        self.assertNotIn('e0', data['game_state']['tiles_on_board'].keys())
+        self.assertNotIn('l0', data['game_state']['tiles_on_board'].keys())
+        self.assertNotIn('l1', data['game_state']['tiles_on_board'].keys())
+        self.assertNotIn('o0', data['game_state']['tiles_on_board'].keys())
+
+    def test_add_player(self):
+        response = self.app.get('/api/addPlayer?player_id=0&player_name=Bob')
+        self.assertEqual(response.status_code, 200)
+        response = self.app.get('/api/addPlayer?player_id=0&player_name=Bob')
+        data = json.loads(response.data)
+        self.assertEqual(data['status'], 500)
+        response = self.app.get('/api/addPlayer?player_name=Wes&player_id=1')
+        data = json.loads(response.data)
+        self.assertEqual(data['game_state']['player_store']['players'])
 
 
 if __name__ == '__main__':
