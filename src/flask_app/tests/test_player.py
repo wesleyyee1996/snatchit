@@ -32,6 +32,14 @@ class PlayerTestCase(unittest.TestCase):
         self.player.add_word(self.world_word)
         self.assertEqual(len(self.player.words), 2)
 
+    def test_remove_word(self):
+        self.player.add_word(self.hello_word)
+
+        self.assertEqual(len(self.player.words), 1)
+        self.assertEqual(str(self.player.words[0]), 'hello')
+        self.player.remove_word(self.hello_word)
+        self.assertEqual(len(self.player.words), 0)
+
     def test_get_json(self):
         self.assertEqual(len(self.player.words), 0)
         self.player.add_word(self.hello_word)

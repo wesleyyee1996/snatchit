@@ -51,6 +51,12 @@ class GameBoardTestCase(unittest.TestCase):
         is_valid_word, word_to_give = self.game.is_valid_word('world')
         self.assertFalse(is_valid_word)
 
+    def test_remove_tiles_from_board(self):
+        self.set_letters_flipped(['h0', 'e0'])
+        h0_tile = self.game.tiles_on_board['h0']
+        self.game.remove_tiles_from_board([h0_tile])
+        self.assert_tiles_not_on_board(['h0'])
+
     def test_take_word_from_board(self):
         self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
         isSuccess = self.game.take_word_from_board('hello', 0)
@@ -71,7 +77,6 @@ class GameBoardTestCase(unittest.TestCase):
 
         self.assertEquals(len(self.game.tiles_on_board), 90)
 
-
     def test_get_dict_repr(self):
         self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
         self.game.player_store.add_player_word(test_utilities.get_hello_word(), 0)
@@ -82,6 +87,16 @@ class GameBoardTestCase(unittest.TestCase):
 
         self.assertEqual(dict_repr, dict_repr_true)
 
+    def test_steal_word(self):
+        self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
+        self.game.take_word_from_board('hello', 1)
+
+        self.set_letters_flipped(['r0'])
+        isSuccess = self.game.steal_word('holler', 0)
+        self.assertTrue(isSuccess)
+        self.assertEqual(self.game.player_store.players[1].words, [])
+        self.assertEqual(str(self.game.player_store.players[0].words[0]), 'holler')
+        self.assert_tiles_not_on_board(['h0', 'e0', 'l1', 'l0', 'o2', 'r0'])
 
     def set_letters_flipped(self, letters_to_flip):
         for letter in letters_to_flip:
@@ -90,19 +105,6 @@ class GameBoardTestCase(unittest.TestCase):
     def assert_tiles_not_on_board(self, tiles):
         for tile in tiles:
             self.assertNotIn(tile, self.game.tiles_on_board)
-
-    # def test_new_game(self):
-        # response = self.app.get('/api/generateBoard')
-        # old_board = json.loads(response.text)
-        # new_game_response = self.app.get('/api/newgame')
-        # new_board = json.loads(new_game_response.text)
-        # self.assertNotEqual(old_board, new_board)
-
-
-    # def test_submit_word(self):
-        # response = self.app.get('/api/word?word=hello&player_id=1')
-        # self.assertEqual(response.status_code, 200)
-        # self.assertIn(b'Welcome to my app', response.data)
 
 def get_dict_repr_true():
     return {

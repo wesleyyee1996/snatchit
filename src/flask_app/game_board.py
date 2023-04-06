@@ -32,7 +32,7 @@ class GameBoard:
     def tiles_in_play(self):
         return [t for t in self.tiles_on_board.values() if t.is_flipped == True]
 
-    def is_valid_word(self, word: str) -> tuple[bool, Word]:
+    def is_valid_word(self, word: str, tiles_to_test) -> tuple[bool, Word]:
         """
         Input:
             word: string
@@ -40,14 +40,13 @@ class GameBoard:
             - if the word was valid: boolean
             - if the above is true, then the Word to give to the player
         """
-        tiles_in_play = self.tiles_in_play()
         word_to_give_player = Word([])
         for l in word:
             letter_valid = False
-            for idx, tile in enumerate(copy.deepcopy(tiles_in_play)):
+            for idx, tile in enumerate(copy.deepcopy(tiles_to_test)):
                 if l == tile.letter:
                     word_to_give_player.add_tile(tile)
-                    tiles_in_play.pop(idx)
+                    tiles_to_test.pop(idx)
                     letter_valid = True
                     break
             if not letter_valid:
@@ -57,6 +56,9 @@ class GameBoard:
         # self.logger.info("word %s is %s" % (word, True))
         return (True, word_to_give_player)
     
+    def submit_word(self, word: str, player_id: int) -> bool:
+        return self.take_word_from_board(word, player_id) or self.steal_word(word, player_id)
+    
     def take_word_from_board(self, word: str, player_id: int) -> bool:
         """
         transfers tiles from board to player when a player successfully gets a word
@@ -64,14 +66,39 @@ class GameBoard:
             word: a Word object
         """
 
-        isValid, word_to_give_player = self.is_valid_word(word)
+        isValid, word_to_give_player = self.is_valid_word(word, self.tiles_in_play())
         if isValid:
             self.player_store.add_player_word(word_to_give_player, player_id)
-            for tile in word_to_give_player.tiles:
-                del self.tiles_on_board[tile.id]
+            self.remove_tiles_from_board(word_to_give_player.tiles)
 
             return True
         
+        return False
+    
+    def remove_tiles_from_board(self, tiles) -> None:
+        for tile in tiles:
+            if tile.id in self.tiles_on_board:
+                del self.tiles_on_board[tile.id]
+
+    
+    def steal_word(self, word: str, player_id: int) -> bool:
+        """
+        if possible, steals a word from another player in combination with some of
+        the tiles on the board
+        """
+
+        tiles_in_play = self.tiles_in_play()
+        for other_player_id, other_player in self.player_store.players.items():
+            if other_player_id == player_id:
+                continue
+            for existing_word in other_player.words:
+                isValid, word_to_give_player = self.is_valid_word(word, tiles_in_play + existing_word.tiles)
+                if isValid:
+                    other_player.remove_word(existing_word)
+                    self.player_store.add_player_word(word_to_give_player, player_id)
+                    self.remove_tiles_from_board(word_to_give_player.tiles)
+                    return True
+                
         return False
 
     def get_dict_repr(self, include_tile_pos: bool = False):

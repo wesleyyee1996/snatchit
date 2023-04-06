@@ -27,7 +27,7 @@ class SnatchItApp(FlaskView):
         word = request.args.get('word', None)
         player_id = int(request.args.get('player_id', None))
         
-        isValidWord = game.take_word_from_board(word, player_id)
+        isValidWord = game.submit_word(word, player_id)
         return json.dumps({'is_valid': isValidWord, 'game_state': game.get_dict_repr(include_tile_pos = False)})
 
     @route('/newGame')
