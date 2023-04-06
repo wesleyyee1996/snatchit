@@ -10,8 +10,6 @@ import { observer } from "mobx-react-lite";
 const Tile = observer(({ gameStore, tileObj }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // const isHidden = false;
-
   const sendFlipped = () => {
     if (tileObj.isFlipped === true) {
       return;
@@ -36,7 +34,7 @@ const Tile = observer(({ gameStore, tileObj }) => {
             sendFlipped();
           }}
         >
-          {isFlipped && !tileObj.isHidden && renderTileLetter()}
+          {tileObj.isFlipped && renderTileLetter()}
         </StyledCenterTile>
       )}
       {/* {!tileObj.inCenter && (

@@ -106,7 +106,7 @@ class GameBoardTestCase(unittest.TestCase):
 
 def get_dict_repr_true():
     return {
-    "tiles_on_board": {
+            "tiles_on_board": {
                 "a0": {"id": "a0", "letter": "a", "is_flipped": False},
                 "a1": {"id": "a1", "letter": "a", "is_flipped": False},
                 "a2": {"id": "a2", "letter": "a", "is_flipped": False},
@@ -209,44 +209,39 @@ def get_dict_repr_true():
                 "z0": {"id": "z0", "letter": "z", "is_flipped": False},
             },
             "player_store": {
-                "players": [
-                    {
-                        0: {
-                            "name": "Wes",
-                            "points": 5,
-                            "words": [
-                                {
-                                    "hello": [
-                                        {"id": "h0", "letter": "h", "is_flipped": False},
-                                        {"id": "e0", "letter": "e", "is_flipped": False},
-                                        {"id": "l0", "letter": "l", "is_flipped": False},
-                                        {"id": "l1", "letter": "l", "is_flipped": False},
-                                        {"id": "o0", "letter": "o", "is_flipped": False},
-                                    ]
-                                }
-                            ],
-                            "id": 0,
+                "players": {
+                    0: {
+                        "name": "Wes",
+                        "points": 5,
+                        "words": {
+                            "hello": {
+                                "h0": {"id": "h0", "letter": "h", "is_flipped": False},
+                                "e0": {"id": "e0", "letter": "e", "is_flipped": False},
+                                "l0": {"id": "l0", "letter": "l", "is_flipped": False},
+                                "l1": {"id": "l1", "letter": "l", "is_flipped": False},
+                                "o0": {"id": "o0", "letter": "o", "is_flipped": False},
+                            }
                         },
-                        1: {
-                            "name": "Janice",
-                            "points": 5,
-                            "words": [
-                                {
-                                    "world": [
-                                        {"id": "w0", "letter": "w", "is_flipped": False},
-                                        {"id": "o1", "letter": "o", "is_flipped": False},
-                                        {"id": "r0", "letter": "r", "is_flipped": False},
-                                        {"id": "l2", "letter": "l", "is_flipped": False},
-                                        {"id": "d0", "letter": "d", "is_flipped": False},
-                                    ]
-                                }
-                            ],
-                            "id": 1,
+                        "id": 0,
+                    },
+                    1: {
+                        "name": "Janice",
+                        "points": 5,
+                        "words": {
+                            "world": {
+                                "w0": {"id": "w0", "letter": "w", "is_flipped": False},
+                                "o1": {"id": "o1", "letter": "o", "is_flipped": False},
+                                "r0": {"id": "r0", "letter": "r", "is_flipped": False},
+                                "l2": {"id": "l2", "letter": "l", "is_flipped": False},
+                                "d0": {"id": "d0", "letter": "d", "is_flipped": False},
+                            }
                         },
-                    }
-                ]
+                        "id": 1,
+                    },
+                }
             },
         }
+
 
 
 if __name__ == '__main__':

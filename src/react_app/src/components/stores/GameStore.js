@@ -37,8 +37,9 @@ class GameStoreImpl {
 
   updateGameBoard(tiles_data) {
     Object.entries(tiles_data).forEach(([tile_id, tile_obj]) => {
-      if (tile_obj["is_flipped"]) {
-        this.tileData.get(tile_id).setIsFlipped(true)
+      if (tile_obj["is_flipped"] === true) {
+        console.log('setting tile to flipped', tile_obj)
+        this.tileData.get(tile_id).setIsFlipped()
       }
     });
   }

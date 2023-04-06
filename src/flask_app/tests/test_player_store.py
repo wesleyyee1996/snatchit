@@ -12,7 +12,7 @@ from player_store import PlayerStore
 
 class PlayerStoreTestCase(unittest.TestCase):
     def setUp(self):
-        self.player_store = PlayerStore()
+        self.player_store = PlayerStore({})
 
     def tearDown(self):
         self.player_store.reset()
@@ -39,43 +39,38 @@ class PlayerStoreTestCase(unittest.TestCase):
         dict_repr = self.player_store.get_dict_repr()
         
         dict_repr_true = {
-          "players": 
-              {
-                  0: {
-                      "name": "Wes",
-                      "points": 5,
-                      "words": [
-                          {
-                              "hello": [
-                                  {"id": "h0", "letter": "h", "is_flipped": False},
-                                  {"id": "e0", "letter": "e", "is_flipped": False},
-                                  {"id": "l0", "letter": "l", "is_flipped": False},
-                                  {"id": "l1", "letter": "l", "is_flipped": False},
-                                  {"id": "o0", "letter": "o", "is_flipped": False},
-                              ]
-                          }
-                      ],
-                      "id": 0,
-                  },
-                  1: {
-                      "name": "Janice",
-                      "points": 5,
-                      "words": [
-                          {
-                              "world": [
-                                  {"id": "w0", "letter": "w", "is_flipped": False},
-                                  {"id": "o1", "letter": "o", "is_flipped": False},
-                                  {"id": "r0", "letter": "r", "is_flipped": False},
-                                  {"id": "l2", "letter": "l", "is_flipped": False},
-                                  {"id": "d0", "letter": "d", "is_flipped": False},
-                              ]
-                          }
-                      ],
-                      "id": 1,
-                  },
-              }
-            
+            "players": {
+                0: {
+                    "name": "Wes",
+                    "points": 5,
+                    "words": {
+                        "hello": {
+                            "h0": {"id": "h0", "letter": "h", "is_flipped": False},
+                            "e0": {"id": "e0", "letter": "e", "is_flipped": False},
+                            "l0": {"id": "l0", "letter": "l", "is_flipped": False},
+                            "l1": {"id": "l1", "letter": "l", "is_flipped": False},
+                            "o0": {"id": "o0", "letter": "o", "is_flipped": False},
+                        }
+                    },
+                    "id": 0,
+                },
+                1: {
+                    "name": "Janice",
+                    "points": 5,
+                    "words": {
+                        "world": {
+                            "w0": {"id": "w0", "letter": "w", "is_flipped": False},
+                            "o1": {"id": "o1", "letter": "o", "is_flipped": False},
+                            "r0": {"id": "r0", "letter": "r", "is_flipped": False},
+                            "l2": {"id": "l2", "letter": "l", "is_flipped": False},
+                            "d0": {"id": "d0", "letter": "d", "is_flipped": False},
+                        }
+                    },
+                    "id": 1,
+                },
+            }
         }
+
         
         self.assertEqual(dict_repr, dict_repr_true)
 

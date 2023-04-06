@@ -18,7 +18,9 @@ class Tile {
   }
 
   setIsFlipped() {
-    this.isFlipped = true;
+    if (this.isFlipped === false) {
+      this.isFlipped = true;
+    }
   }
 
   setInCenter() {

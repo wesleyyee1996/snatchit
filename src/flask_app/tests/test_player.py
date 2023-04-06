@@ -38,19 +38,17 @@ class PlayerTestCase(unittest.TestCase):
         dict_repr = self.player.get_dict_repr()
 
         dict_repr_true = {
-            'name': 'Wes',
-            'points': 5,
-            'words': [
-                {'hello':
-                 [
-                    {'id': 'h0', 'letter': 'h', "is_flipped": False},
-                     {'id': 'e0', 'letter': 'e', "is_flipped": False},
-                     {'id': 'l0', 'letter': 'l', "is_flipped": False},
-                     {'id': 'l1', 'letter': 'l', "is_flipped": False},
-                     {'id': 'o0', 'letter': 'o', "is_flipped": False}
-                 ]
-                 }
-            ]
+            "name": "Wes",
+            "points": 5,
+            "words": {
+                "hello": {
+                    "h0": {"id": "h0", "letter": "h", "is_flipped": False},
+                    "e0": {"id": "e0", "letter": "e", "is_flipped": False},
+                    "l0": {"id": "l0", "letter": "l", "is_flipped": False},
+                    "l1": {"id": "l1", "letter": "l", "is_flipped": False},
+                    "o0": {"id": "o0", "letter": "o", "is_flipped": False},
+                }
+            },
         }
 
         self.assertEqual(dict_repr, dict_repr_true)
@@ -61,26 +59,22 @@ class PlayerTestCase(unittest.TestCase):
         dict_repr_true = {
             "name": "Wes",
             "points": 10,
-            "words": [
-                {
-                    "hello": [
-                        {"id": "h0", "letter": "h", "is_flipped": False},
-                        {"id": "e0", "letter": "e", "is_flipped": False},
-                        {"id": "l0", "letter": "l", "is_flipped": False},
-                        {"id": "l1", "letter": "l", "is_flipped": False},
-                        {"id": "o0", "letter": "o", "is_flipped": False},
-                    ]
+            "words": {
+                "hello": {
+                    "h0": {"id": "h0", "letter": "h", "is_flipped": False},
+                    "e0": {"id": "e0", "letter": "e", "is_flipped": False},
+                    "l0": {"id": "l0", "letter": "l", "is_flipped": False},
+                    "l1": {"id": "l1", "letter": "l", "is_flipped": False},
+                    "o0": {"id": "o0", "letter": "o", "is_flipped": False},
                 },
-                {
-                    "world": [
-                        {"id": "w0", "letter": "w", "is_flipped": False},
-                        {"id": "o1", "letter": "o", "is_flipped": False},
-                        {"id": "r0", "letter": "r", "is_flipped": False},
-                        {"id": "l2", "letter": "l", "is_flipped": False},
-                        {"id": "d0", "letter": "d", "is_flipped": False},
-                    ]
+                "world": {
+                    "w0": {"id": "w0", "letter": "w", "is_flipped": False},
+                    "o1": {"id": "o1", "letter": "o", "is_flipped": False},
+                    "r0": {"id": "r0", "letter": "r", "is_flipped": False},
+                    "l2": {"id": "l2", "letter": "l", "is_flipped": False},
+                    "d0": {"id": "d0", "letter": "d", "is_flipped": False},
                 },
-            ],
+            },
         }
         self.assertEqual(dict_repr, dict_repr_true)
 

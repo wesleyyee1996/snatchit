@@ -25,13 +25,12 @@ class WordTestCase(unittest.TestCase):
         self.word.add_tile(Tile('l', 1))
         self.word.add_tile(Tile('o', 0))
         dict_repr = self.word.get_dict_repr()
-        self.assertIn('hello', dict_repr)
-        self.assertEqual(len(dict_repr['hello']), 5)
-        self.assertEqual(dict_repr['hello'][0]['id'], 'h0')
-        self.assertEqual(dict_repr['hello'][1]['id'], 'e0')
-        self.assertEqual(dict_repr['hello'][2]['id'], 'l0')
-        self.assertEqual(dict_repr['hello'][3]['id'], 'l1')
-        self.assertEqual(dict_repr['hello'][4]['id'], 'o0')
+        self.assertEqual(len(dict_repr), 5)
+        self.assertIn('h0', dict_repr)
+        self.assertIn('e0', dict_repr)
+        self.assertIn('l0', dict_repr)
+        self.assertIn('l1', dict_repr)
+        self.assertIn('o0', dict_repr)
 
 
 if __name__ == '__main__':
