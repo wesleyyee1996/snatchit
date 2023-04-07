@@ -8,7 +8,7 @@ const StyledGameBoard = styled.div`
   justify-content: space;
   flex-grow: 1;
   position: relative;
-  background-color: blue;
+  // background-color: blue;
 `;
 
 const GameBoard = observer(({ gameStore }) => {

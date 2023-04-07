@@ -14,8 +14,8 @@ class GameStoreImpl {
   constructor() {
     makeAutoObservable(this);
     this.getLetterData();
-    setTimeout(() => {this.getAddNewPlayer(0, 'Wes');}, 1000)
-    setTimeout(() => {this.getAddNewPlayer(1, 'Janice');}, 1000)
+    setTimeout(() => {this.getAddNewPlayer(0, 'Player1');}, 1000)
+    setTimeout(() => {this.getAddNewPlayer(1, 'Player2');}, 1000)
     const tileData = new Map();
     this.tileData = observable.map(tileData);
   }
@@ -45,21 +45,7 @@ class GameStoreImpl {
   }
 
   updatePlayers(player_data) {
-    Object.entries(player_data).forEach(([player_id, player_obj]) => {
-      this.playerStore.addPlayer(player_id, player_obj["name"])
-      const words = player_obj["words"]
-      if (Object.keys(words).length > 0) {
-        Object.entries(words).forEach(([word, word_obj]) => {
-          Object.values(word_obj).forEach((tile) => {
-            this.tileData.delete(tile["id"])
-          });
-          this.playerStore.addPlayerWord(word, player_id)
-        });
-      }
-      if (this.playerStore.currentPlayer == null) {
-        this.playerStore.currentPlayer = this.playerStore.players.get(player_id)
-      }
-    });
+    this.playerStore.updatePlayers(player_data, this.tileData)
   }
 
   generateBoard(data) {

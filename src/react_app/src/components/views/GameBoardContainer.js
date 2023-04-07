@@ -10,7 +10,7 @@ const StyledGameBoardContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  background-color: green;
+  // background-color: black;
   bottom: 10%;
 `;
 

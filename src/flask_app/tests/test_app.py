@@ -63,7 +63,7 @@ class SnatchItAppTestCase(unittest.TestCase):
         self.assertTrue(response.status_code, 200)
         data = json.loads(response.data)
         self.assertTrue(data['is_valid'])
-        self.assertIn('hello', data['game_state']['player_store']['players'][0]['0']['words'][0].keys())
+        self.assertIn('hello', data['game_state']['player_store']['players']['0']['words'].keys())
         self.assertNotIn('h0', data['game_state']['tiles_on_board'].keys())
         self.assertNotIn('e0', data['game_state']['tiles_on_board'].keys())
         self.assertNotIn('l0', data['game_state']['tiles_on_board'].keys())

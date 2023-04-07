@@ -23,6 +23,13 @@ class Player {
       this.points -= word.length;
     }
   }
+
+  updateWords(new_words) {
+    this.words = []
+    for (const word in new_words) {
+      this.addWord(word)
+    }
+  }
 }
 
 export default Player;

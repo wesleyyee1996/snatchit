@@ -43,13 +43,15 @@ class GameBoardTestCase(unittest.TestCase):
 
     def test_is_valid_word(self):
         self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
-        is_valid_word, word_to_give = self.game.is_valid_word('hello')
-        self.assertTrue(is_valid_word)
+        tiles_to_test = self.game.tiles_in_play()
+        is_valid, word_to_give = self.game.is_valid_word('hello', tiles_to_test)
+        self.assertTrue(is_valid)
         self.assertEqual(str(word_to_give), 'hello')
         self.assertEqual(self.game.tiles_in_play()[0].id, 'b1')
 
-        is_valid_word, word_to_give = self.game.is_valid_word('world')
-        self.assertFalse(is_valid_word)
+        tiles_to_test = self.game.tiles_in_play()
+        is_valid, word_to_give = self.game.is_valid_word('world', tiles_to_test)
+        self.assertFalse(is_valid)
 
     def test_remove_tiles_from_board(self):
         self.set_letters_flipped(['h0', 'e0'])
