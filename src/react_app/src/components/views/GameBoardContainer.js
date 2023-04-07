@@ -29,7 +29,9 @@ const GameBoardContainer = observer(({ gameStore }) => {
             </StyledGameBoardContainer>
           </div>
           <div class="col">
-            <Sidebar gameStore={gameStore} />
+            <div class="container-fluid rounded">
+              <Sidebar gameStore={gameStore} />
+            </div>
           </div>
         </div>
       </div>

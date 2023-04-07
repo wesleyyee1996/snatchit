@@ -6,7 +6,7 @@ import PlayerWord from "./PlayerWord";
 const PlayerCard = observer(({ player }) => {
   const formPlayerName = (name) => {
     return (
-      <div>
+      <div style={{ color: "#fdf6e3" }}>
         <h3>
           <strong>Player: </strong>
           <small>{name}</small>
@@ -24,12 +24,14 @@ const PlayerCard = observer(({ player }) => {
   };
 
   return (
-    <Card>
-      <div class="container mb-3 mt-1">
-        <div class="row text-center">{formPlayerName(player.name)}</div>
-        <div class="row">{formPlayerWords(player)}</div>
-      </div>
-    </Card>
+    <div class="container">
+      <Card style={{ backgroundColor: "#a3946d" }}>
+        <div class="container mb-3 mt-1">
+          <div class="row text-center">{formPlayerName(player.name)}</div>
+          <div class="row">{formPlayerWords(player)}</div>
+        </div>
+      </Card>
+    </div>
   );
 });
 

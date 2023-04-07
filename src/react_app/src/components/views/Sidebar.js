@@ -5,18 +5,18 @@ import PlayerView from "./PlayerView";
 
 const StyledSidebar = styled.div`
   // display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 98vh;
+  // align-items: center;
+  // justify-content: center;
+  // height: 97vh;
   // flex-grow: 1;
   // margin: 2vh;
-  background-color: white;
+  // background-color: #e8d2a9;
 `;
 
 const Sidebar = ({ gameStore }) => {
   return (
     <StyledSidebar>
-      <div class="container p-1">
+      <div class="container rounded p-1" style={{ backgroundColor: "#e8d2a9" }}>
         <div class="row p-1 mt-3">
           <WordForm gameStore={gameStore} />
         </div>
