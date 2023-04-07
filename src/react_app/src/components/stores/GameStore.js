@@ -14,8 +14,8 @@ class GameStoreImpl {
   constructor() {
     makeAutoObservable(this);
     this.getLetterData();
-    setTimeout(() => {this.getAddNewPlayer(0, 'Player1');}, 1000)
-    setTimeout(() => {this.getAddNewPlayer(1, 'Player2');}, 1000)
+    // setTimeout(() => {this.getAddNewPlayer(0, 'Player1');}, 1000)
+    // setTimeout(() => {this.getAddNewPlayer(1, 'Player2');}, 1000)
     const tileData = new Map();
     this.tileData = observable.map(tileData);
   }
@@ -31,21 +31,21 @@ class GameStoreImpl {
   }
 
   updateGame(game_data) {
-    this.updateGameBoard(game_data["game_state"]["tiles_on_board"])
-    this.updatePlayers(game_data["game_state"]["player_store"]["players"])
+    this.updateGameBoard(game_data["game_state"]["tiles_on_board"]);
+    this.updatePlayers(game_data["game_state"]["player_store"]["players"]);
   }
 
   updateGameBoard(tiles_data) {
     Object.entries(tiles_data).forEach(([tile_id, tile_obj]) => {
       if (tile_obj["is_flipped"] === true) {
-        console.log('setting tile to flipped', tile_obj)
-        this.tileData.get(tile_id).setIsFlipped()
+        console.log("setting tile to flipped", tile_obj);
+        this.tileData.get(tile_id).setIsFlipped();
       }
     });
   }
 
   updatePlayers(player_data) {
-    this.playerStore.updatePlayers(player_data, this.tileData)
+    this.playerStore.updatePlayers(player_data, this.tileData);
   }
 
   generateBoard(data) {
@@ -68,7 +68,7 @@ class GameStoreImpl {
     axios
       .get("http://127.0.0.1:8000/api/newGame")
       .then((res) => {
-        this.updateGame(res.data)
+        this.updateGame(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -87,7 +87,7 @@ class GameStoreImpl {
       return res.data;
     }
     fetchData().then((data) => {
-      this.updateGame(data)
+      this.updateGame(data);
     });
   }
 
@@ -95,23 +95,27 @@ class GameStoreImpl {
     axios
       .get("http://127.0.0.1:8000/api/tile?tile_id=" + tile_id)
       .then((res) => {
-        this.updateGame(res.data)
+        this.updateGame(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  getAddNewPlayer(player_id, player_name) {
-    async function fetchData() {
+  getAddNewPlayer(player_name) {
+    async function fetchData(player_id) {
       const res = await axios.get(
         "http://127.0.0.1:8000/api/addPlayer?player_name=" +
-        player_name + "&player_id=" + player_id
+          player_name +
+          "&player_id=" +
+          player_id
       );
       return res.data;
     }
-    fetchData().then((data) => {
-      this.updateGame(data)
+    let player_id = this.playerStore.players.size;
+    fetchData(player_id).then((data) => {
+      this.updateGame(data);
+      this.playerStore.setCurrentPlayer(player_id);
     });
   }
 }

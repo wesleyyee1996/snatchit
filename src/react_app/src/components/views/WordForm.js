@@ -3,19 +3,18 @@ import { observer } from "mobx-react-lite";
 
 const WordForm = observer(({ gameStore }) => {
   const [wordText, setWordText] = useState("");
-  const [playerId, setPlayerId] = useState(null)
 
   const submitWord = (e) => {
     e.preventDefault();
+    const playerId = gameStore.playerStore.getCurrentPlayer();
     gameStore.getSubmitWord(wordText, playerId);
     setWordText("");
-    setPlayerId(null);
   };
 
   return (
     <form>
       <div class="row g-3 align-items-center">
-        <div class="row-auto">
+        <div class="row">
           <div class="col-auto">
             <label class="form-label">Word: </label>
           </div>
@@ -30,26 +29,13 @@ const WordForm = observer(({ gameStore }) => {
             />
           </div>
           <div class="col-auto">
-              <label class="form-label">Player Id: </label>
-            </div>
-            <div class="col-auto">
-              <input
-                class="form-control"
-                type="number"
-                value={playerId}
-                onChange={(e) => {
-                  setPlayerId(e.target.value);
-                }}
-              />
-            </div>
+            <button class="btn btn-primary" onClick={(e) => submitWord(e)}>
+              {" "}
+              Submit
+            </button>
           </div>
         </div>
-        <div class="col-auto">
-          <button class="btn btn-primary" onClick={(e) => submitWord(e)}>
-            {" "}
-            Submit
-          </button>
-        </div>
+      </div>
     </form>
   );
 });

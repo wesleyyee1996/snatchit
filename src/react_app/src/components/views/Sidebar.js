@@ -17,7 +17,7 @@ const Sidebar = ({ gameStore }) => {
   return (
     <StyledSidebar>
       <div class="container p-1">
-        <div class="row p-1">
+        <div class="row p-1 mt-3">
           <WordForm gameStore={gameStore} />
         </div>
         <div class="row p-1">
