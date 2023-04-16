@@ -27,8 +27,8 @@ export const StyledCenterTile = styled(StyledTile)`
   // padding-top: 2%;
   // border: 20px;
   position: absolute;
-  top: ${(props) => props.top_pos}%;
-  left: ${(props) => props.left_pos}%;
+  top: ${(props) => props.pos_x}%;
+  left: ${(props) => props.pos_y}%;
   transform: rotate(-${(props) => props.angle}deg);
 `;
 

@@ -11,11 +11,11 @@ export default class PlayerStore {
   }
 
   addPlayerWord(word, playerId) {
-    this.players.get(playerId).addWord(word);
+    this.getPlayerById(playerId).addWord(word);
   }
 
   removePlayerWord(word, playerId) {
-    this.players.get(playerId).removeWord(word);
+    this.getPlayerById(playerId).removeWord(word);
   }
 
   addPlayer(playerId, playerName) {
@@ -26,7 +26,6 @@ export default class PlayerStore {
 
   updatePlayers(player_data, tile_data) {
     Object.entries(player_data).forEach(([player_id, player_obj]) => {
-      player_id = parseInt(player_id);
       this.addPlayer(player_id, player_obj["name"]);
       const words = player_obj["words"];
       if (Object.keys(words).length > 0) {
@@ -38,7 +37,7 @@ export default class PlayerStore {
           });
         });
       }
-      this.players.get(player_id).updateWords(words);
+      this.getPlayerById(player_id).updateWords(words);
     });
   }
 
@@ -52,5 +51,22 @@ export default class PlayerStore {
     if (this.currentPlayer !== undefined) {
       return this.currentPlayer.id;
     }
+  }
+
+  getPlayersList() {
+    return Array.from(this.players.values());
+  }
+
+  getPlayerById(playerId) {
+    if (!this.players.has(playerId)) {
+      throw new Error(
+        "Player store doesn't have player with id" + playerId + "!"
+      );
+    }
+    return this.players.get(playerId);
+  }
+
+  numPlayers() {
+    return this.players.size;
   }
 }

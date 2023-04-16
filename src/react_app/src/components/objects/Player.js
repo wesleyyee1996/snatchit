@@ -4,7 +4,7 @@ class Player {
   words = [];
   points = 0;
 
-  constructor(id, name) {
+  constructor(id, name = "") {
     makeAutoObservable(this);
     this.name = name;
     this.id = id;
@@ -25,9 +25,9 @@ class Player {
   }
 
   updateWords(new_words) {
-    this.words = []
+    this.words = [];
     for (const word in new_words) {
-      this.addWord(word)
+      this.addWord(word);
     }
   }
 }

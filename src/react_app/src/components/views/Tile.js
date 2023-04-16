@@ -8,15 +8,12 @@ import { StyledTileLetter } from "../styles/TileLetter.styled";
 import { observer } from "mobx-react-lite";
 
 const Tile = observer(({ gameStore, tileObj }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
   const sendFlipped = () => {
-    if (tileObj.isFlipped === true) {
+    if (tileObj.is_flipped === true) {
       return;
     }
     gameStore.postTileFlipped(tileObj.id);
-    tileObj.setIsFlipped();
-    setIsFlipped(true);
+    tileObj.is_flipped = true;
   };
 
   const renderTileLetter = () => {
@@ -25,21 +22,18 @@ const Tile = observer(({ gameStore, tileObj }) => {
 
   return (
     <div>
-      {tileObj.inCenter && (
+      {
         <StyledCenterTile
-          top_pos={tileObj.top_pos}
-          left_pos={tileObj.left_pos}
+          pos_x={tileObj.pos_x}
+          pos_y={tileObj.pos_y}
           angle={tileObj.angle}
           onClick={() => {
             sendFlipped();
           }}
         >
-          {tileObj.isFlipped && renderTileLetter()}
+          {tileObj.is_flipped && renderTileLetter()}
         </StyledCenterTile>
-      )}
-      {/* {!tileObj.inCenter && (
-        <StyledPlayerTile>{renderTileLetter()}</StyledPlayerTile>
-      )} */}
+      }
     </div>
   );
 });

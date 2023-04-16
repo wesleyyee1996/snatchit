@@ -1,24 +1,21 @@
 import yaml
 import json
 import copy
-import logging
 import random
 import math
 from tile import Tile
 from player_store import PlayerStore
 from word import Word
-
-logging.basicConfig()
-logging.root.setLevel(logging.NOTSET)
-logging.basicConfig(level=logging.NOTSET)
+import logging
 
 BOARD_LEFT = 5
 BOARD_RIGHT = 90
 
+
 class GameBoard:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-        self.tiles_on_board = {} # {tile_id : Tile}
+        self.tiles_on_board = {}  # {tile_id : Tile}
         self.num_tiles = 0
         self.player_store = PlayerStore({})
         self.generate_game_board()
@@ -53,12 +50,11 @@ class GameBoard:
                 self.logger.info("word %s is %s" % (word, False))
                 return (False, None)
 
-        # self.logger.info("word %s is %s" % (word, True))
         return (True, word_to_give_player)
-    
+
     def submit_word(self, word: str, player_id: int) -> bool:
         return self.take_word_from_board(word, player_id) or self.steal_word(word, player_id)
-    
+
     def take_word_from_board(self, word: str, player_id: int) -> bool:
         """
         transfers tiles from board to player when a player successfully gets a word
@@ -66,21 +62,21 @@ class GameBoard:
             word: a Word object
         """
 
-        isValid, word_to_give_player = self.is_valid_word(word, self.tiles_in_play())
+        isValid, word_to_give_player = self.is_valid_word(
+            word, self.tiles_in_play())
         if isValid:
             self.player_store.add_player_word(word_to_give_player, player_id)
             self.remove_tiles_from_board(word_to_give_player.tiles)
 
             return True
-        
+
         return False
-    
+
     def remove_tiles_from_board(self, tiles) -> None:
         for tile in tiles:
             if tile.id in self.tiles_on_board:
                 del self.tiles_on_board[tile.id]
 
-    
     def steal_word(self, word: str, player_id: int) -> bool:
         """
         if possible, steals a word from another player in combination with some of
@@ -92,13 +88,15 @@ class GameBoard:
             if other_player_id == player_id:
                 continue
             for existing_word in other_player.words:
-                isValid, word_to_give_player = self.is_valid_word(word, tiles_in_play + existing_word.tiles)
+                isValid, word_to_give_player = self.is_valid_word(
+                    word, tiles_in_play + existing_word.tiles)
                 if isValid:
                     other_player.remove_word(existing_word)
-                    self.player_store.add_player_word(word_to_give_player, player_id)
+                    self.player_store.add_player_word(
+                        word_to_give_player, player_id)
                     self.remove_tiles_from_board(word_to_give_player.tiles)
                     return True
-                
+
         return False
 
     def get_dict_repr(self, include_tile_pos: bool = False):
@@ -117,7 +115,6 @@ class GameBoard:
         if tile_id not in self.tiles_on_board:
             raise KeyError("The tile %s is not a valid tile id" % (tile_id))
         self.tiles_on_board[tile_id].flip()
-        # self.logger.info('tiles in play %s' % (self.tiles_in_play()))
 
     def generate_game_board(self):
         try:
@@ -148,6 +145,6 @@ class GameBoard:
         for tile_obj in self.tiles_on_board.values():
             x, y = get_xy_from_index(randomized_index[k])
             angle = random.randrange(0, 359)
-            tile_obj.set_position(x,y,angle)
+            tile_obj.set_position(x, y, angle)
             # self.logger.info(tile_obj)
             k += 1

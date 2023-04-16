@@ -4,7 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 import GameBoard from "./GameBoard";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
-import NewPlayerModal from "./NewPlayerModal";
+import NewGameModal from "./NewGame/NewGameModal";
+import NewGameModalStore from "../stores/NewGameModalStore";
 
 const StyledGameBoardContainer = styled.div`
   height: 97vh;
@@ -16,10 +17,15 @@ const StyledGameBoardContainer = styled.div`
 `;
 
 const GameBoardContainer = observer(({ gameStore }) => {
+  const newGameModalStore = new NewGameModalStore(gameStore);
+
   return (
     <>
       <Navbar></Navbar>
-      <NewPlayerModal gameStore={gameStore} />
+      <NewGameModal
+        newGameModalStore={newGameModalStore}
+        playerStore={gameStore.playerStore}
+      />
 
       <div class="container-fluid">
         <div class="row">

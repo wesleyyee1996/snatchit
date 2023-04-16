@@ -1,0 +1,10 @@
+flask-sse
+gunicorn
+gevent
+flask
+flask-restful
+flask-cors
+flask-classful
+Werkzeug==2.1.2
+pyyaml
+flask-socketio
