@@ -1,12 +1,13 @@
 import yaml
 import json
-import copy
 import random
 import math
 from tile import Tile
 from player_store import PlayerStore
 from word import Word
 import logging
+from merriam_webster_api.merriam_webster.api import (CollegiateDictionary,
+                                                     WordNotFoundException)
 
 BOARD_LEFT = 5
 BOARD_RIGHT = 90
@@ -22,6 +23,11 @@ class GameBoard:
 
     def reset(self):
         self.__init__()
+
+    def set_dictionary_api_key(self, api_key):
+        self.dictionary_api_key = api_key
+        self.collegiate_dictionary = CollegiateDictionary(
+            self.dictionary_api_key)
 
     def add_player(self, player_id, player_name):
         self.player_store.add_player(player_id, player_name)
@@ -39,18 +45,32 @@ class GameBoard:
         """
         word_to_give_player = Word([])
         for l in word:
-            letter_valid = False
-            for idx, tile in enumerate(copy.deepcopy(tiles_to_test)):
-                if l == tile.letter:
-                    word_to_give_player.add_tile(tile)
-                    tiles_to_test.pop(idx)
-                    letter_valid = True
-                    break
-            if not letter_valid:
-                self.logger.info("word %s is %s" % (word, False))
-                return (False, None)
+            matching_tiles = [
+                tile for tile in tiles_to_test if tile.letter == l]
+            if not matching_tiles:
+                self.logger.info(f"word {word} is {False}")
+                return False, None
+            tile_to_remove = matching_tiles[0]
+            tiles_to_test.remove(tile_to_remove)
+            word_to_give_player.add_tile(tile_to_remove)
 
-        return (True, word_to_give_player)
+        if self.lookup_word(str(word_to_give_player)):
+            return True, word_to_give_player
+        return False, None
+
+    def lookup_word(self, word: str):
+        try:
+            defs = [(entry.word, entry.function, definition) for entry in self.collegiate_dictionary.lookup(word)
+                    for definition, examples in entry.senses]
+        except WordNotFoundException as e:
+            self.logger.error(e)
+            return False
+        if not defs:
+            print(f"No definitions found for '{word}'")
+            return False
+        # for word, pos, definition in defs:
+        #     print(f"{word} [{pos}]: {definition}")
+        return True
 
     def submit_word(self, word: str, player_id: int) -> bool:
         return self.take_word_from_board(word, player_id) or self.steal_word(word, player_id)

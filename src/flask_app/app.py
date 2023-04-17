@@ -1,5 +1,5 @@
 import json
-import uuid
+import os
 import logging
 from game_board import GameBoard
 from flask import Flask
@@ -79,4 +79,6 @@ def handle_disconnect():
 
 
 if __name__ == '__main__':
+    college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
+    game.set_dictionary_api_key(college_key)
     socketio.run(app, host="0.0.0.0", port=8000, debug=False)
