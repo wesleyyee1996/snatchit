@@ -1,7 +1,7 @@
 
 
 class Word:
-    def __init__(self, tiles = []):
+    def __init__(self, tiles=[]):
         self.tiles = tiles
 
     def __repr__(self):
@@ -9,10 +9,10 @@ class Word:
         for t in self.tiles:
             self.word += t.letter
         return self.word
-    
+
     def __len__(self):
         return len(self.tiles)
-    
+
     def add_tile(self, tile):
         """
         Input:
@@ -22,12 +22,12 @@ class Word:
 
     def tile_ids(self):
         return [t.id for t in self.tiles]
-    
+
     def get_dict_repr(self, include_tile_pos: bool = False):
         tile_dict = {}
         for tile in self.tiles:
             tile_dict[tile.id] = tile.get_dict_repr(include_tile_pos)
         return tile_dict
-    
+
     def reset(self):
         self.tiles = []

@@ -14,18 +14,35 @@ class GameStoreImpl {
   constructor() {
     makeAutoObservable(this);
 
+    this.createSocketChannels();
+    this.getLetterData();
+    const tileData = new Map();
+    this.tileData = observable.map(tileData);
+  }
+
+  createSocketChannels() {
     this.socket.on("connect", () => {
       console.log("connected!");
     });
     this.socket.on("update_game", (data) => {
       this.updateGame(data);
+      console.log(data);
     });
     this.socket.on("generate_board", (data) => {
       this.generateBoard(data["game_state"]["tiles_on_board"]);
     });
-    this.getLetterData();
-    const tileData = new Map();
-    this.tileData = observable.map(tileData);
+    this.socket.on("submit_word_valid", (data) => {
+      console.log(data);
+    });
+    this.socket.on("WordIsTooShortException", (data) => {
+      console.log(data);
+    });
+    this.socket.on("WordDoesNotExistInDictionaryException", (data) => {
+      console.log(data);
+    });
+    this.socket.on("CannotMakeWordFromGameTilesException", (data) => {
+      console.log(data);
+    });
   }
 
   getLetterData() {

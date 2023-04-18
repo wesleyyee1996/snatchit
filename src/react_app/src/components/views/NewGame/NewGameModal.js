@@ -1,32 +1,34 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Popover } from "react-bootstrap";
 import RegisterUserForm from "./RegisterUser";
 import NewPlayerCard from "./NewPlayerCard";
 
 const NewGameModal = observer(({ newGameModalStore, playerStore }) => {
-  const renderUsers = () => {
+  const renderRegisterUserForm = () => {
     if (newGameModalStore.showRegisterUserForm) {
       return (
         <RegisterUserForm
           newGameModalStore={newGameModalStore}
         ></RegisterUserForm>
       );
-    } else {
-      const playersList = playerStore.getPlayersList();
-      return (
-        <div class="container">
-          {playersList.length > 0 &&
-            playersList.map((playerObj) => {
-              return (
-                <div>
-                  <NewPlayerCard playerObj={playerObj}></NewPlayerCard>
-                </div>
-              );
-            })}
-        </div>
-      );
     }
+  };
+
+  const renderUsers = () => {
+    const playersList = playerStore.getPlayersList();
+    return (
+      <div class="container">
+        {playersList.length > 0 &&
+          playersList.map((playerObj) => {
+            return (
+              <div>
+                <NewPlayerCard playerObj={playerObj}></NewPlayerCard>
+              </div>
+            );
+          })}
+      </div>
+    );
   };
 
   return (
@@ -36,17 +38,26 @@ const NewGameModal = observer(({ newGameModalStore, playerStore }) => {
       </Modal.Header>
       <Modal.Body>
         <div class="container">{renderUsers()}</div>
+        <div class="container">{renderRegisterUserForm()}</div>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="primary"
-          onClick={(e) => {
-            newGameModalStore.startGame();
-            e.preventDefault();
-          }}
+        <span
+          class="d-inline-block"
+          data-toggle="popover"
+          data-trigger="hover"
+          data-content="Disabled popover"
         >
-          Start New Game
-        </Button>
+          <Button
+            variant="primary"
+            onClick={(e) => {
+              newGameModalStore.startGame();
+              e.preventDefault();
+            }}
+            disabled={newGameModalStore.disableStartGameButton}
+          >
+            Start New Game
+          </Button>
+        </span>
       </Modal.Footer>
     </Modal>
   );

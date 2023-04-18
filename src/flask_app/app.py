@@ -4,6 +4,8 @@ import logging
 from game_board import GameBoard
 from flask import Flask
 from flask_socketio import SocketIO, emit
+from merriam_webster_api.merriam_webster.api import WordNotFoundException
+from exceptions import CannotMakeWordFromGameTilesException, WordDoesNotExistInDictionaryException, WordIsTooShortException
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
@@ -35,9 +37,13 @@ def word(data):
     word = data['word']
     player_id = data['player_id']
 
-    isValidWord = game.submit_word(word, player_id)
-    emit('update_game', {'is_valid_word': isValidWord,
-         'game_state': game.get_dict_repr(include_tile_pos=False)}, broadcast=True)
+    try:
+        word_definition = game.submit_word(word, player_id)
+        emit('update_game', {
+            'game_state': game.get_dict_repr(include_tile_pos=False)}, broadcast=True)
+        emit('submit_word_valid', word_definition, broadcast=True)
+    except (WordIsTooShortException, WordDoesNotExistInDictionaryException, CannotMakeWordFromGameTilesException) as e:
+        emit(e.__class__.__name__, e.message)
 
 
 @socketio.on('new_game')

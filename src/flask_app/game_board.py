@@ -8,9 +8,11 @@ from word import Word
 import logging
 from merriam_webster_api.merriam_webster.api import (CollegiateDictionary,
                                                      WordNotFoundException)
+import exceptions
 
 BOARD_LEFT = 5
 BOARD_RIGHT = 90
+MIN_WORD_LENGTH = 4
 
 
 class GameBoard:
@@ -43,6 +45,7 @@ class GameBoard:
             - if the word was valid: boolean
             - if the above is true, then the Word to give to the player
         """
+
         word_to_give_player = Word([])
         for l in word:
             matching_tiles = [
@@ -53,44 +56,39 @@ class GameBoard:
             tile_to_remove = matching_tiles[0]
             tiles_to_test.remove(tile_to_remove)
             word_to_give_player.add_tile(tile_to_remove)
-
-        if self.lookup_word(str(word_to_give_player)):
-            return True, word_to_give_player
-        return False, None
+        return True, word_to_give_player
 
     def lookup_word(self, word: str):
         try:
             defs = [(entry.word, entry.function, definition) for entry in self.collegiate_dictionary.lookup(word)
                     for definition, examples in entry.senses]
-        except WordNotFoundException as e:
-            self.logger.error(e)
-            return False
-        if not defs:
-            print(f"No definitions found for '{word}'")
-            return False
-        # for word, pos, definition in defs:
-        #     print(f"{word} [{pos}]: {definition}")
-        return True
+        except WordNotFoundException:
+            raise exceptions.WordDoesNotExistInDictionaryException(word)
+        first_def = defs[0]
+        return f"{first_def[0]} [{first_def[1]}]: {first_def[2]}"
 
     def submit_word(self, word: str, player_id: int) -> bool:
-        return self.take_word_from_board(word, player_id) or self.steal_word(word, player_id)
+        if len(word) < MIN_WORD_LENGTH:
+            raise exceptions.WordIsTooShortException(word, MIN_WORD_LENGTH)
+        isValid, word_to_give_player = self.is_valid_word(
+            word, self.tiles_in_play())
+        isStolen = self.steal_word(word, player_id)
+        if not isValid and not isStolen:
+            raise exceptions.CannotMakeWordFromGameTilesException(word)
 
-    def take_word_from_board(self, word: str, player_id: int) -> bool:
+        definition = self.lookup_word(word)
+        if not isStolen:
+            self.take_word_from_board(word_to_give_player, player_id)
+        return definition
+
+    def take_word_from_board(self, word_to_give_player: Word, player_id: int) -> bool:
         """
         transfers tiles from board to player when a player successfully gets a word
         Args:
             word: a Word object
         """
-
-        isValid, word_to_give_player = self.is_valid_word(
-            word, self.tiles_in_play())
-        if isValid:
-            self.player_store.add_player_word(word_to_give_player, player_id)
-            self.remove_tiles_from_board(word_to_give_player.tiles)
-
-            return True
-
-        return False
+        self.player_store.add_player_word(word_to_give_player, player_id)
+        self.remove_tiles_from_board(word_to_give_player.tiles)
 
     def remove_tiles_from_board(self, tiles) -> None:
         for tile in tiles:
@@ -104,14 +102,12 @@ class GameBoard:
         """
 
         tiles_in_play = self.tiles_in_play()
-        for other_player_id, other_player in self.player_store.players.items():
-            if other_player_id == player_id:
-                continue
-            for existing_word in other_player.words:
+        for player in self.player_store.players.values():
+            for existing_word in player.words:
                 isValid, word_to_give_player = self.is_valid_word(
                     word, tiles_in_play + existing_word.tiles)
                 if isValid:
-                    other_player.remove_word(existing_word)
+                    player.remove_word(existing_word)
                     self.player_store.add_player_word(
                         word_to_give_player, player_id)
                     self.remove_tiles_from_board(word_to_give_player.tiles)

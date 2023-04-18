@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, computed } from "mobx";
 
 export default class NewGameModalStore {
   showModal = true;
@@ -6,7 +6,9 @@ export default class NewGameModalStore {
   showRegisterUserForm = true;
 
   constructor(gameStore) {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      disableStartGameButton: computed,
+    });
     this.gameStore = gameStore;
   }
 
@@ -23,5 +25,9 @@ export default class NewGameModalStore {
     }
     this.gameStore.getAddNewPlayer(username);
     this.showRegisterUserForm = false;
+  }
+
+  get disableStartGameButton() {
+    return this.gameStore.playerStore.numPlayers() < 2;
   }
 }
