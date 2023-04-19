@@ -5,27 +5,25 @@ import GameBoard from "./GameBoard";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
 import NewGameModal from "./NewGame/NewGameModal";
-import NewGameModalStore from "../stores/NewGameModalStore";
+import GameAlerts from "./GameAlerts/GameAlerts";
 
 const StyledGameBoardContainer = styled.div`
   height: 97vh;
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  // background-color: black;
   bottom: 10%;
 `;
 
 const GameBoardContainer = observer(({ gameStore }) => {
-  const newGameModalStore = new NewGameModalStore(gameStore);
-
   return (
     <>
       <Navbar></Navbar>
       <NewGameModal
-        newGameModalStore={newGameModalStore}
+        newGameModalStore={gameStore.newGameModalStore}
         playerStore={gameStore.playerStore}
       />
+      <GameAlerts gameAlertStore={gameStore.gameAlertsStore}></GameAlerts>
 
       <div class="container-fluid">
         <div class="row">

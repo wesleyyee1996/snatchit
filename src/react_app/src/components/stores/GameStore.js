@@ -1,13 +1,18 @@
-import { makeAutoObservable, observable, isObservableObject } from "mobx";
-import Tile from "../objects/Tile";
-import PlayerStore from "../stores/PlayerStore";
+import { makeAutoObservable, observable } from "mobx";
+import PlayerStore from "./PlayerStore";
+import GameAlertsStore from "./GameAlertsStore";
 import { io } from "socket.io-client";
 import { v4 as uuidv4 } from "uuid";
+import NewGameModalStore from "./NewGameModalStore";
 
 class GameStoreImpl {
   fetchedLetterData = false;
 
   playerStore = new PlayerStore();
+
+  gameAlertsStore = new GameAlertsStore();
+
+  newGameModalStore = new NewGameModalStore(this);
 
   socket = io("127.0.0.1:8000");
 
@@ -32,13 +37,14 @@ class GameStoreImpl {
       this.generateBoard(data["game_state"]["tiles_on_board"]);
     });
     this.socket.on("submit_word_valid", (data) => {
+      this.gameAlertsStore.setValidWordAlert(data);
       console.log(data);
     });
     this.socket.on("WordIsTooShortException", (data) => {
-      console.log(data);
+      this.gameAlertsStore.addWordIsTooShortAlert(data);
     });
     this.socket.on("WordDoesNotExistInDictionaryException", (data) => {
-      console.log(data);
+      this.gameAlertsStore.addWordDoesNotExistInDictionaryAlert(data);
     });
     this.socket.on("CannotMakeWordFromGameTilesException", (data) => {
       console.log(data);

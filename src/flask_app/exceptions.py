@@ -2,7 +2,7 @@
 
 class WordIsTooShortException(Exception):
     def __init__(self, word, min_len):
-        self.message = f"The word '{word}' is too short. It must be at least {min_len} letter long!"
+        self.message = f"The word '{word}' is too short. It must be at least {min_len} letters long!"
         super().__init__(self.message)
 
 

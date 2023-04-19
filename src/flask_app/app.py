@@ -14,7 +14,6 @@ game = GameBoard()
 
 socketio = SocketIO(app, cors_allowed_origins='*')
 
-
 logging.basicConfig()
 logging.root.setLevel(logging.NOTSET)
 FORMAT = "[%(lineno)s - %(funcName)20s()] %(message)s"
