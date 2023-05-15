@@ -4,7 +4,7 @@ import logging
 from game_board import GameBoard
 from flask import Flask
 from flask_socketio import SocketIO, emit
-from merriam_webster_api.merriam_webster.api import WordNotFoundException
+#from merriam_webster_api.merriam_webster.api import WordNotFoundException
 from exceptions import CannotMakeWordFromGameTilesException, WordDoesNotExistInDictionaryException, WordIsTooShortException
 
 app = Flask(__name__)
@@ -84,6 +84,4 @@ def handle_disconnect():
 
 
 if __name__ == '__main__':
-    college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
-    game.set_dictionary_api_key(college_key)
     socketio.run(app, host="0.0.0.0", port=8000, debug=False)

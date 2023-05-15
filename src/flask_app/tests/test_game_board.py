@@ -3,6 +3,7 @@ from game_board import GameBoard
 import unittest
 import sys
 import os
+from exceptions import CannotMakeWordFromGameTilesException
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent_directory = os.path.dirname(current)
@@ -61,22 +62,20 @@ class GameBoardTestCase(unittest.TestCase):
         self.game.remove_tiles_from_board([h0_tile])
         self.assert_tiles_not_on_board(['h0'])
 
-    def test_take_word_from_board(self):
+    def test_submit_word(self):
         self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
-        isSuccess = self.game.take_word_from_board('hello', 0)
-        self.assertTrue(isSuccess)
+        self.game.submit_word('hello',player_id = 0)
         self.assertEqual(
             str(self.game.player_store.players[0].words[0]), 'hello')
         self.assert_tiles_not_on_board(['h0', 'e0', 'l1', 'l0', 'o2'])
 
-        isSuccess = self.game.take_word_from_board('world', 1)
-        self.assertFalse(isSuccess)
+        with self.assertRaises(CannotMakeWordFromGameTilesException):
+            self.game.submit_word('world',player_id = 1)
         self.assertEqual(len(self.game.player_store.players[0].words), 1)
         self.assertEqual(len(self.game.player_store.players[1].words), 0)
 
         self.set_letters_flipped(['w0', 'o1', 'r0', 'l2', 'd0'])
-        isSuccess = self.game.take_word_from_board('world', 1)
-        self.assertTrue(isSuccess)
+        self.game.submit_word('world',player_id = 1)
         self.assertEqual(
             str(self.game.player_store.players[1].words[0]), 'world')
         self.assert_tiles_not_on_board(['w0', 'o1', 'r0', 'l2', 'd0'])
@@ -97,11 +96,10 @@ class GameBoardTestCase(unittest.TestCase):
 
     def test_steal_word(self):
         self.set_letters_flipped(['h0', 'e0', 'l1', 'l0', 'o2', 'b1'])
-        self.game.take_word_from_board('hello', 1)
+        self.game.submit_word('hello', player_id=1)
 
         self.set_letters_flipped(['r0'])
-        isSuccess = self.game.steal_word('holler', 0)
-        self.assertTrue(isSuccess)
+        self.game.submit_word('holler', player_id=0)
         self.assertEqual(self.game.player_store.players[1].words, [])
         self.assertEqual(
             str(self.game.player_store.players[0].words[0]), 'holler')

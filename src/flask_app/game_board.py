@@ -2,12 +2,17 @@ import yaml
 import json
 import random
 import math
+import os
 from tile import Tile
 from player_store import PlayerStore
 from word import Word
 import logging
-from merriam_webster_api.merriam_webster.api import (CollegiateDictionary,
-                                                     WordNotFoundException)
+import importlib  
+merriam_webster_api = importlib.import_module("merriam-webster-api.merriam_webster.api")
+CollegiateDictionary = merriam_webster_api.CollegiateDictionary
+WordNotFoundException = merriam_webster_api.WordNotFoundException
+#from merriam_webster_api.merriam_webster.api import (CollegiateDictionary,
+                                                     #WordNotFoundException)
 import exceptions
 
 BOARD_LEFT = 5
@@ -21,13 +26,15 @@ class GameBoard:
         self.tiles_on_board = {}  # {tile_id : Tile}
         self.num_tiles = 0
         self.player_store = PlayerStore({})
+        self.set_dictionary_api_key()
         self.generate_game_board()
 
     def reset(self):
         self.__init__()
 
-    def set_dictionary_api_key(self, api_key):
-        self.dictionary_api_key = api_key
+    def set_dictionary_api_key(self):
+        college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
+        self.dictionary_api_key = college_key
         self.collegiate_dictionary = CollegiateDictionary(
             self.dictionary_api_key)
 

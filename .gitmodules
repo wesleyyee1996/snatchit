@@ -1,0 +1,3 @@
+[submodule "src/flask_app/merriam-webster-api"]
+	path = src/flask_app/merriam-webster-api
+	url = https://github.com/pfeyz/merriam-webster-api.git
