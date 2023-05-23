@@ -8,6 +8,7 @@ export default class GameAlertsStore {
   wordIsTooShortMessage = "";
 
   showCannotMakeWordFromGameTilesAlert = false;
+  cannotMakeWordFromGameTilesAlertMessage = "";
 
   showValidWordAlert = false;
   validWordAlertMessage = "";
@@ -25,6 +26,11 @@ export default class GameAlertsStore {
   addWordDoesNotExistInDictionaryAlert(message) {
     this.showWordDoesNotExistInDictionaryAlert = true;
     this.wordDoesNotExistInDictionaryMessage = message;
+  }
+
+  addCannotMakeWordFromGameTilesAlertMessage(message) {
+    this.showCannotMakeWordFromGameTilesAlert = true;
+    this.cannotMakeWordFromGameTilesAlertMessage = message;
   }
 
   setValidWordAlert(message) {

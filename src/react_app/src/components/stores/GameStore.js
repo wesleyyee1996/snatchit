@@ -47,7 +47,7 @@ class GameStoreImpl {
       this.gameAlertsStore.addWordDoesNotExistInDictionaryAlert(data);
     });
     this.socket.on("CannotMakeWordFromGameTilesException", (data) => {
-      console.log(data);
+      this.gameAlertsStore.addCannotMakeWordFromGameTilesAlertMessage(data);
     });
   }
 
