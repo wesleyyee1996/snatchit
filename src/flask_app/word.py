@@ -1,4 +1,4 @@
-
+from collections import Counter
 
 class Word:
     def __init__(self, tiles=[]):
@@ -28,6 +28,12 @@ class Word:
         for tile in self.tiles:
             tile_dict[tile.id] = tile.get_dict_repr(include_tile_pos)
         return tile_dict
+
+    def list_of_letters(self):
+        return [t.letter for t in self.tiles]
+    
+    def count_letters(self):
+        return Counter(self.list_of_letters())
 
     def reset(self):
         self.tiles = []

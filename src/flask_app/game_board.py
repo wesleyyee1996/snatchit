@@ -108,12 +108,23 @@ class GameBoard:
         the tiles on the board
         """
 
+        def is_existing_word_subset_of_word_to_give(word_to_give_player, existing_word):
+            for tile in existing_word.list_of_letters():
+                if tile in word_to_give_player.count_letters():
+                    word_to_give_player.count_letters()[tile] -= 1
+                    if word_to_give_player.count_letters()[tile] == 0:
+                        del word_to_give_player.count_letters()[tile]
+                else:
+                    return False
+            return True
+
         tiles_in_play = self.tiles_in_play()
         for player in self.player_store.players.values():
             for existing_word in player.words:
                 isValid, word_to_give_player = self.is_valid_word(
                     word, tiles_in_play + existing_word.tiles)
-                if isValid:
+                # if word_to_give_player contains all of existing_word tiles
+                if isValid and is_existing_word_subset_of_word_to_give(word_to_give_player, existing_word):
                     player.remove_word(existing_word)
                     self.player_store.add_player_word(
                         word_to_give_player, player_id)

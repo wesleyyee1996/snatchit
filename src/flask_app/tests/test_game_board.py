@@ -69,15 +69,22 @@ class GameBoardTestCase(unittest.TestCase):
             str(self.game.player_store.players[0].words[0]), 'hello')
         self.assert_tiles_not_on_board(['h0', 'e0', 'l1', 'l0', 'o2'])
 
+        # test that word is not added to player if it is not valid
         with self.assertRaises(CannotMakeWordFromGameTilesException):
             self.game.submit_word('world',player_id = 1)
         self.assertEqual(len(self.game.player_store.players[0].words), 1)
         self.assertEqual(len(self.game.player_store.players[1].words), 0)
 
+        # test that word is added to player 1 if it is valid
         self.set_letters_flipped(['w0', 'o1', 'r0', 'l2', 'd0'])
         self.game.submit_word('world',player_id = 1)
         self.assertEqual(
             str(self.game.player_store.players[1].words[0]), 'world')
+
+        # test that player 0's words are preserved
+        self.assertEqual(len(self.game.player_store.players[0].words), 1)
+        self.assertEqual(
+            str(self.game.player_store.players[0].words[0]), 'hello')
         self.assert_tiles_not_on_board(['w0', 'o1', 'r0', 'l2', 'd0'])
 
         self.assertEquals(len(self.game.tiles_on_board), 90)
