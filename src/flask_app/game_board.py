@@ -33,7 +33,12 @@ class GameBoard:
         self.__init__()
 
     def set_dictionary_api_key(self):
-        college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
+        college_key = None
+        try:
+            with open('/run/secrets/MERRIAM_WEBSTER_COLLEGIATE_KEY', 'r') as f:
+                college_key = f.read().strip()
+        except FileNotFoundError:
+            college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
         self.dictionary_api_key = college_key
         self.collegiate_dictionary = CollegiateDictionary(
             self.dictionary_api_key)

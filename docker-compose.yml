@@ -11,7 +11,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./src/flask_app:/app:ro
+      - ~/.secrets:/app/.secrets
+      - ./src/flask_app:/app
   redis-app:
     image: redis
     ports:
