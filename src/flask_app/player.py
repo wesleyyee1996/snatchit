@@ -13,11 +13,11 @@ class Player:
 
     def add_word(self, word: Word):
         self.words.append(word)
-        self.add_points(len(word))
+        self.add_points(len(word)-3)
 
     def remove_word(self, word: Word):
         self.words.remove(word)
-        self.subtract_points(len(word))
+        self.subtract_points(len(word)-3)
 
     def add_points(self, pts):
         self.points += pts

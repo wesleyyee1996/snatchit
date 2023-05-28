@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import WordForm from "./WordForm";
-import PlayerView from "./PlayerView";
+import PlayerView from "./Player/PlayerView";
 
 const StyledSidebar = styled.div`
   // display: flex;

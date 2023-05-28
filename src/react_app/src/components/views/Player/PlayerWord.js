@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { StyledPlayerWord } from "../styles/PlayerWord.styled";
+import { StyledPlayerWord } from "../../styles/PlayerWord.styled";
 import PlayerTile from "./PlayerTile";
 
 const PlayerWord = observer(({ gameStore, word }) => {

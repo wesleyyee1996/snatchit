@@ -13,14 +13,14 @@ class Player {
   addWord(word) {
     if (!this.words.includes(word)) {
       this.words.push(word);
-      this.points += word.length;
+      this.points += word.length - 3;
     }
   }
 
   removeWord(word) {
     if (this.words.includes(word)) {
       this.words.splice(this.words.indexOf(word), 1);
-      this.points -= word.length;
+      this.points -= word.length - 3;
     }
   }
 
