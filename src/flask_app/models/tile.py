@@ -1,7 +1,20 @@
 import math
 import json
+from database.database import db
 
-class Tile:
+class Tile(db.Model):
+    id = db.Column(db.String(3), primary_key=True)
+    letter = db.Column(db.String(1), nullable=False)
+    number = db.Column(db.Integer, nullable=False)
+    is_flipped = db.Column(db.Boolean, nullable=False, default=False)
+    pos_x = db.Column(db.Float, nullable=False)
+    pos_y = db.Column(db.Float, nullable=False)
+    angle = db.Column(db.Float, nullable=False)
+
+    word_id = db.Column(db.String(50), db.ForeignKey('word.id'))
+    player_id = db.Column(db.String(50), db.ForeignKey('player.id'))
+    game_id = db.Column(db.String(50), db.ForeignKey('game.id'))
+    
     def __init__(self, letter, number):
         self.id = letter + str(number)
         self.letter = letter

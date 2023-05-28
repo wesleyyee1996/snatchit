@@ -1,9 +1,16 @@
 import json
-from word import Word
+from models.word import Word
+from database.database import db
 
-class Player:
+class Player(db.Model):
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100))
+    points = db.Column(db.Integer)
 
-    def __init__(self, name):
+    game_id = db.Column(db.String(50), db.ForeignKey('game.id'))
+
+    def __init__(self, id, name):
+        self.id = id
         self.words = [] # list of Word objects
         self.points = 0
         self.name = name

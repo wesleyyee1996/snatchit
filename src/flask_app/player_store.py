@@ -1,13 +1,12 @@
-from player import Player
-from word import Word
-import json
+from models.player import Player
+from models.word import Word
+from database.database import db
 import logging
 
 
 class PlayerStore:
     def __init__(self, players={}):
         self.logger = logging.getLogger(__name__)
-        # self.players = {1: Player("Wesley"), 2: Player("Janice")}
         self.logger.info("Resetting player store")
         self.players = players
 
@@ -18,7 +17,6 @@ class PlayerStore:
         return playersStr
 
     def reset(self):
-        # self.players = {1: Player("Wesley"), 2: Player("Janice")}
         self.logger.info("Resetting player store reset")
         self.players = self.__init__()
 
@@ -46,5 +44,7 @@ class PlayerStore:
             raise KeyError(
                 "Player w/ ID: %s and name %s is already present" % (player_id, player_name))
         self.logger.info('added player %s' % (player_id))
-        new_player = Player(player_name)
+        new_player = Player(player_id, player_name)
+        db.session.add(new_player)
+        db.session.commit()
         self.players[player_id] = new_player

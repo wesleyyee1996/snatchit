@@ -1,6 +1,11 @@
 from collections import Counter
+from database.database import db
 
-class Word:
+class Word(db.Model):
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100))
+    tiles = db.relationship('Tile', backref='word', lazy=True)
+
     def __init__(self, tiles=[]):
         self.tiles = tiles
 

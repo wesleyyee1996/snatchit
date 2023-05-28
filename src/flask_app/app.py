@@ -4,13 +4,19 @@ import logging
 from game_board import GameBoard
 from flask import Flask
 from flask_socketio import SocketIO, emit
-#from merriam_webster_api.merriam_webster.api import WordNotFoundException
+from database.database import db
+from models.game import Game
 from exceptions import CannotMakeWordFromGameTilesException, WordDoesNotExistInDictionaryException, WordIsTooShortException
 
 app = Flask(__name__)
 app.secret_key = 'my_secret_key'
 app.logger.setLevel(logging.DEBUG)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+db.init_app(app)
+app.app_context().push()
+db.create_all()
 game = GameBoard()
+game_obj = Game('asdxfasdf') # TODO: remove
 
 socketio = SocketIO(app, cors_allowed_origins='*')
 
@@ -18,7 +24,6 @@ logging.basicConfig()
 logging.root.setLevel(logging.NOTSET)
 FORMAT = "[%(lineno)s - %(funcName)20s()] %(message)s"
 logging.basicConfig(level=logging.NOTSET, format=FORMAT)
-
 
 @socketio.on('tile')
 def tile(data):
@@ -60,7 +65,6 @@ def generate_board():
 
 @socketio.on('add_player')
 def add_player(data):
-    app.logger.debug('data', data)
     player_id = data['player_id']
     player_name = data['player_name']
     status = 200

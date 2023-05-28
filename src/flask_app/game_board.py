@@ -3,16 +3,15 @@ import json
 import random
 import math
 import os
-from tile import Tile
+from models.tile import Tile
 from player_store import PlayerStore
-from word import Word
+from models.word import Word
+from database.database import db 
 import logging
 import importlib  
 merriam_webster_api = importlib.import_module("merriam-webster-api.merriam_webster.api")
 CollegiateDictionary = merriam_webster_api.CollegiateDictionary
 WordNotFoundException = merriam_webster_api.WordNotFoundException
-#from merriam_webster_api.merriam_webster.api import (CollegiateDictionary,
-                                                     #WordNotFoundException)
 import exceptions
 
 BOARD_LEFT = 5
@@ -35,7 +34,7 @@ class GameBoard:
     def set_dictionary_api_key(self):
         college_key = None
         try:
-            with open('/run/secrets/MERRIAM_WEBSTER_COLLEGIATE_KEY', 'r') as f:
+            with open('/app/.secrets/MERRIAM_WEBSTER_COLLEGIATE_KEY', 'r') as f:
                 college_key = f.read().strip()
         except FileNotFoundError:
             college_key = (os.getenv("MERRIAM_WEBSTER_COLLEGIATE_KEY"))
@@ -159,8 +158,14 @@ class GameBoard:
         try:
             stream = open("./letter_counts.yml", 'r')
         except FileNotFoundError as e:
-            self.logger.error(e)
+            # self.logger.error(e)
             stream = open("src/flask_app/letter_counts.yml", 'r')
+
+        existing_tiles = Tile.query.all()
+        if existing_tiles:
+            for tile in existing_tiles:
+                db.session.delete(tile)
+            db.session.commit()
 
         parsed_yml = yaml.safe_load(stream)
         for letter, count in parsed_yml.items():
@@ -168,6 +173,9 @@ class GameBoard:
                 self.tiles_on_board[letter+str(i)] = Tile(letter, i)
         self.num_tiles = len(self.tiles_on_board)
         self.generate_tile_positions()
+
+        db.session.add_all(self.tiles_on_board.values())
+        db.session.commit()
 
     def generate_tile_positions(self):
 
@@ -179,11 +187,9 @@ class GameBoard:
 
         randomized_index = list(range(0, self.num_tiles))
         random.shuffle(randomized_index)
-        # self.logger.info(randomized_index)
         k = 0
         for tile_obj in self.tiles_on_board.values():
             x, y = get_xy_from_index(randomized_index[k])
             angle = random.randrange(0, 359)
             tile_obj.set_position(x, y, angle)
-            # self.logger.info(tile_obj)
             k += 1

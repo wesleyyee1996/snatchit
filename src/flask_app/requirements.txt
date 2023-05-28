@@ -5,6 +5,7 @@ flask
 flask-restful
 flask-cors
 flask-classful
+Flask-SQlAlchemy
 Werkzeug==2.1.2
 pyyaml
 flask-socketio
